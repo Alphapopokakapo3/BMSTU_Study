@@ -1,0 +1,383 @@
+@font-face {
+    font-family: "Nunito";
+    src: url("/static/fonts/Nunito-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito Bold";
+    src: url("/static/fonts/Nunito-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito Medium";
+    src: url("/static/fonts/Nunito-Medium.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito SemiBold";
+    src: url("/static/fonts/Nunito-SemiBold.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+}
+
+
+body {
+    --primary: #006CDC;
+    --background: #f4f4f4;
+    --text-first: #000000;
+    --surface: #ffffff;
+    --text-second: #404040;
+    --text-third: #666666;
+
+    --seminar: #47CEFF;
+    --lection: #006CDC;
+    --laboratory: #FFB24F;
+
+}
+
+body.dark {
+    --background: #17212B;
+    --text-first: #F5F5F5;
+    --surface: #232E3C;
+    --text-second: #708499;
+    --text-third: #708499;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background);
+    overflow: hidden;
+}
+
+.page-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.content {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.nav-button-image {
+    margin-bottom: 8px;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    min-width: 64px;
+}
+
+.nav-button:active {
+    background: rgba(0, 0, 0, .08);
+}
+
+.nav-button-text {
+    font-family: 'Nunito', sans-serif;
+}
+
+.nav-button-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    aspect-ratio: 1;
+    max-height: 64px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-evenly;
+    /* position: fixed; */
+    /* bottom: 0; */
+    width: 100vw;
+    height: 64px;
+}
+
+
+/* Навигационные экраны */
+
+
+
+.page {
+    display: none;
+}
+
+.page.active-page {
+    display: block;
+}
+
+
+
+
+
+/* Стили для карточек в расписании */
+
+.lesson-card {
+    margin-bottom: 8px;
+}
+
+.lesson-card-info {
+    background-color: var(--surface);
+    padding: 8px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lesson-card-hat {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.lesson-card-time {
+    /* Время занятия */
+    font-family: 'Nunito Bold', sans-serif;
+    color: var(--text-second);
+}
+
+.lesson-card-audience {
+    /* Аудитория */
+    font-family: 'Nunito SemiBold', sans-serif;
+}
+
+.lesson-card-description {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lesson-card-name {
+    /* Название занятия */
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 20px;
+}
+
+.lesson-card-type {
+    /* Тип занятия */
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.lesson-card-type.seminar {
+    color: var(--seminar);
+}
+
+.lesson-card-type.lecture {
+    color: var(--lection);
+}
+
+.lesson-card-type.lab {
+    color: var(--laboratory);
+}
+
+.lesson-card-teachers {
+    /* Преподаватели */
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    color: var(--text-second);
+}
+
+.lesson-card-homework {
+    /* Домашнее задание на это занятие */
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: var(--text-third);
+    margin-top: 8px;
+}
+
+.lesson-card-break {
+    /* Перерыв */
+    margin-left: 12px;
+    margin-top: 8px;
+}
+
+.lesson-card-break-text {
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 14px;
+}
+
+.lesson-card-break-text.last {
+    /* Последний перерыв не отображается */
+    display: none;
+}
+
+.active-now {
+    /* Активный сейчас блок (временной) подсвечивается синим */
+    color: var(--primary);
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+/* Стиль для дня недели */
+.week-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+}
+
+.week-day-abbr {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+}
+
+.week-day-button {
+    height: 48px;
+    width: 48px;
+    aspect-ratio: 1;
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+}
+
+.week-day-button.active {
+    background-color: var(--primary);
+}
+
+.week-day-button:active {
+    background-color: rgba(1, 1, 1, 0.08);
+}
+
+.day-number {
+    font-family: 'Nunito Medium', sans-serif;
+    font-size: 16px;
+    color: var(--text-first);
+}
+
+.day-number.active {
+    color: white;
+}
+
+
+
+/* Неделя */
+
+.week-view {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+
+
+/* Экран расписания */
+#weeks-viewport {
+    margin-bottom: 8px;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+
+    scrollbar-width: none;
+
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+}
+
+.slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+#schedule-page-head {
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 12px;
+    margin-bottom: 14px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#schedule-page-label {
+    font-family: 'Nunito Bold';
+    font-size: 20px;
+    color: var(--text-first);
+}
+
+#week-number-button {
+    font-family: 'Nunito SemiBold';
+    font-size: 16px;
+    color: white;
+    height: 32px;
+
+    background-color: var(--primary);
+    border: none;
+    padding: 2px 8px;
+    border-radius: 8px;
+
+}
+
+#month-name-button {
+    font-family: 'Nunito SemiBold';
+    font-size: 16px;
+    color: white;
+    height: 32px;
+
+    background-color: var(--primary);
+    border: none;
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+.vertical-schedule-viewport {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+
+    touch-action: pan-y;
+    overscroll-behavior-y: contain;
+
+    scrollbar-width: none;
+}
+
+#horizontal-schedule-viewport {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+}
+
+.lesson-card {
+    scroll-snap-align: start;
+}
+
+#schedule-page-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+}

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Sandbox</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- <script src="https://telegram.org/js/telegram-web-app.js"></script> -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+    <style>
+
+        body {
+            overflow: hidden;
+        }
+
+
+        #weeks-viewport {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            
+
+            scrollbar-width: none;
+            
+            touch-action: pan-x;
+            overscroll-behavior-x: contain;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        #schedule-page-head {
+            margin-left: 24px;
+            margin-right: 24px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        #schedule-page-label {
+            font-family: 'Nunito Bold';
+            font-size: 20px;
+            color: var(--text-first);
+        }
+
+        #week-number-button {
+            font-family: 'Nunito SemiBold';
+            font-size: 16px;
+            color: white;
+            height: 32px;
+
+            background-color: var(--primary);
+            border: none;
+            padding: 2px 8px;
+            border-radius: 8px;
+
+        }
+
+        #month-name-button {
+            font-family: 'Nunito SemiBold';
+            font-size: 16px;
+            color: white;
+            height: 32px;
+
+            background-color: var(--primary);
+            border: none;
+            padding: 2px 8px;
+            border-radius: 8px;
+        }
+
+        .vertical-schedule-viewport {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+
+            touch-action: pan-y;
+            overscroll-behavior-y: contain;
+
+            scrollbar-width: none;
+        }
+
+        #horizontal-schedule-viewport {
+            flex: 1;
+            min-height: 0;
+            height: 100%;
+        }
+
+        .lesson-card {
+            scroll-snap-align: start;
+        }
+
+        #schedule-page-content {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100%;
+        }
+
+        
+        
+
+    </style>
+
+</head>
+<body>
+
+    {% include 'partials/schedule_lesson_card.html' %}
+    {% include 'partials/week_templates.html' %}
+
+    <div class="page-layout">
+        <main class="content">
+            <div id="schedule-page-content">
+                <div id="schedule-page-head">
+                    <span id="schedule-page-label">Расписание</span>
+                    <div id="week-info">
+                        <button id="week-number-button">10 нед, числ</button>
+                        <button id="month-name-button">сент</button>
+                    </div>
+                </div>
+            
+                <div id="weeks-viewport"></div>
+            
+                <div id="horizontal-schedule-viewport"></div>
+            </div>
+        </main>
+
+
+        <nav class="navigation">
+            <button data-page="schedule" class="nav-button">
+                <div class="nav-button-div">
+                    <img src="{{ url_for('static', filename='Schedule24.svg') }}"
+                        width="24" height="24" alt="Расписание" class="nav-button-image">
+                    <h5 class="nav-button-text">Расписание</h5>
+                </div>
+            </button>
+            <button data-page="homework" class="nav-button">
+                <div class="nav-button-div">
+                    <img src="{{ url_for('static', filename='Schedule24.svg') }}"
+                        width="24" height="24" alt="Д/З" class="nav-button-image">
+                    <h5 class="nav-button-text">Д/З</h5>
+                </div>
+            </button>
+            <button data-page="profile" class="nav-button">
+                <div class="nav-button-div">
+                    <img src="{{ url_for('static', filename='Schedule24.svg') }}"
+                        width="24" height="24" alt="Профиль" class="nav-button-image">
+                    <h5 class="nav-button-text">Профиль</h5>
+                </div>
+            </button>
+        </nav>
+    </div>
+
+
+
+    
+
+
+
+    <script>
+
+        const lessonTest = {
+            time: "10:20 - 11:50",
+            audience: "210х, 254х",
+            name: "Математический анализ",
+            type: "sem",
+            typeText: "семинар",
+            teachersText: "Иванов Иван Иванович",
+            homeworkText: "Сделать домашнюю работу.",
+            breakText: "Перерыв 10 мин.",
+            isActive: true,
+            isBreak: false,
+            isLast: false,
+        };
+
+        const testWeek = {
+            days: [
+                {
+                    weekDayNumber: 1,
+                    dayAbbr: "п",
+                    dayNumber: 21,
+                    isActive: true
+                },
+                {
+                    weekDayNumber: 2,
+                    dayAbbr: "в",
+                    dayNumber: 22,
+                    isActive: false
+                },
+                {
+                    weekDayNumber: 3,
+                    dayAbbr: "с",
+                    dayNumber: 23,
+                    isActive: false
+                },
+                {
+                    weekDayNumber: 4,
+                    dayAbbr: "ч",
+                    dayNumber: 24,
+                    isActive: false
+                },
+                {
+                    weekDayNumber: 5,
+                    dayAbbr: "п",
+                    dayNumber: 25,
+                    isActive: false
+                },
+                {
+                    weekDayNumber: 6,
+                    dayAbbr: "с",
+                    dayNumber: 26,
+                    isActive: false
+                },
+                {
+                    weekDayNumber: 7,
+                    dayAbbr: "в",
+                    dayNumber: 27,
+                    isActive: false
+                },
+            ]
+        }
+
+        const testDay = {
+            weekDayNumber: 1,
+            dayAbbr: "п",
+            dayNumber: 21,
+            isActive: true
+        };
+
+        const testScreen = {
+            weekNumberText: "10 нед, числ",
+            monthNameText: "сент"
+        }
+
+        const testSchedule = [1,2,3,4]
+
+        const sandbox = document.getElementById("sandbox");
+        const weeks_viewport = document.getElementById("weeks-viewport");
+        const horizontal_schedule_viewport = document.getElementById("horizontal-schedule-viewport");
+
+        function setSchedulePageInfo(data) {
+            document.getElementById("week-number-button").textContent = data.weekNumberText;
+            document.getElementById("month-name-button").textContent = data.monthNameText;
+        }
+
+        function generateScheduleViewport(data) {
+            const viewport = document.createElement('div');
+            viewport.className = "vertical-schedule-viewport";
+
+            data.forEach(element => {
+                viewport.append(createLesson(element));
+            })
+            return viewport
+        }
+
+        weeks_viewport.append(createWeek(testWeek));
+        weeks_viewport.append(createWeek(testWeek));
+        weeks_viewport.append(createWeek(testWeek));
+
+        // horizontal_schedule_viewport.append(generateScheduleViewport([lessonTest,lessonTest,lessonTest,lessonTest,lessonTest,lessonTest]));
+
+        async function getScheduleFromApi() {
+            const res = await fetch('api/schedule');
+            const data = await res.json();
+
+            let ch_week_data = [];
+            let zn_week_data = [];
+
+            data.schedule.forEach(element => {
+                if (element.week == "ch") {
+                    ch_week_data.push(element);
+                }
+                else if (element.week == "zn") {
+                    zn_week_data.push(element);
+                }
+                else if (element.week == "all") {
+                    ch_week_data.push(element);
+                    zn_week_data.push(element);
+                }
+            });
+
+            return {
+                ch: ch_week_data,
+                zn: zn_week_data
+            };
+        }
+
+        function scheduleViewModelFromScheduleData(data, currentTime, breakTime, homeworkText) { // currentTime (mins), breakTime (mins, -1 last)
+            let viewModel = {};
+
+            viewModel.day = data.day;
+            viewModel.week = data.week;
+
+            viewModel.time = data.startTime + " - " + data.endTime;
+
+            let audiences = []
+            data.audiences.forEach( element => {
+                audiences.push(element.name);
+            })
+            viewModel.audience = audiences.join(", ");
+
+            viewModel.name = data.discipline.fullName;
+
+            viewModel.type = data.discipline.actType;
+            switch (viewModel.type) {
+                case "lab":
+                    viewModel.typeText = "лаб. работа";
+                    break;
+                case "seminar":
+                    viewModel.typeText = "семинар";
+                    break;
+                case "lecture":
+                    viewModel.typeText = "лекция";
+                    break;
+            }
+
+            let teachers = []
+            data.teachers.forEach(el => {
+                teachers.push([el.lastName, el.firstName, el.middleName].join(" "));
+            })
+            viewModel.teachersText = teachers.join(", ");
+
+            viewModel.homeworkText = homeworkText;
+            if (homeworkText == "") {
+                viewModel.isHomework = false;
+            } else {
+                viewModel.isHomework = true;
+            }
+
+            viewModel.breakText = `Перерыв ${breakTime} мин.`
+
+            let isActive = false;
+            let isBreak = false;
+            let isLast = false;
+
+            let startMinutes = data.startTimeHourNum * 60 + data.startTimeMinNum;
+            let endMinutes = data.endTimeHourNum * 60 + data.endTimeMinNum;
+
+            isLast = breakTime == -1;
+            isActive = (currentTime >= startMinutes) && (currentTime < endMinutes);
+            if (!isLast) {
+                isBreak = (currentTime >= endMinutes) && (currentTime < endMinutes + breakTime);
+            }
+
+            viewModel.isActive = isActive;
+            viewModel.isLast = isLast;
+            viewModel.isBreak = isBreak;
+
+            return viewModel;
+            
+        }
+
+        function getSortedDaysDataWithCalculatedData(data) {
+            let week = { // списки занятий
+                1: [],
+                2: [],
+                3: [],
+                4: [],
+                5: [],
+                6: [],
+                7: []
+            };
+
+            let breaks = { // списки перерывов между занятиями
+                1: [],
+                2: [],
+                3: [],
+                4: [],
+                5: [],
+                6: [],
+                7: []
+            };
+
+            data.forEach(el => {
+                const day = el.day;
+
+                if (week[day].length > 0) {
+                    const last = week[day].at(-1);
+
+                    const lastEnd = last.endTimeHourNum * 60 + last.endTimeMinNum;
+                    const curStart = el.startTimeHourNum * 60 + el.startTimeMinNum;
+
+                    const breakTime = curStart-lastEnd;
+
+                    breaks[day].push(breakTime);
+                }
+                week[day].push(el);
+            });
+            Object.entries(breaks).forEach(element => {
+                breaks[element[0]].push(-1);
+            })
+
+            return {
+                week: week,
+                breaks: breaks
+            }
+        }
+
+        async function main() {
+            const schedule = await getScheduleFromApi();
+            // console.log(schedule.ch);
+            // console.log(schedule.zn);
+
+            
+            let day = [];
+
+            const sortedCh = getSortedDaysDataWithCalculatedData(schedule.ch);
+            console.log(sortedCh);
+            Object.entries(sortedCh.week).forEach(value => {
+                let key = value[0];
+                let lesson_number = 0;
+                value[1].forEach(lesson => {
+                    // console.log(lesson);
+                    day.push(
+                        scheduleViewModelFromScheduleData(lesson, 780, sortedCh.breaks[key][lesson_number], "")
+                        
+                    );
+                    lesson_number += 1;
+                })
+                horizontal_schedule_viewport.append(generateScheduleViewport(day));
+                day = [];
+            });
+
+            // console.log(getSortedDaysDataWithCalculatedData(schedule.ch));
+
+
+
+            
+            
+        }
+
+        main();
+
+        // console.log(scheduleViewModelFromScheduleData(.ch[10], 720, -1));
+
+        // sandbox.append(createWeekDay(testDay));
+
+
+    </script>
+
+</body>
+</html>

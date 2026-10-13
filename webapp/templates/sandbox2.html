@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* ── Горизонтальный свайп недель ── */
+    #weeks-viewport {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      height: 100vh;
+      scrollbar-width: none;
+      touch-action: pan-x pan-y;      /* ← разрешаем обе оси */
+      overscroll-behavior-x: contain;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+
+      display: flex;
+      flex-direction: column;
+      height: 100%;                    /* ← на всю высоту viewport */
+    }
+
+    /* ── Шапка страницы ── */
+    #schedule-page-head {
+      margin: 0 24px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;                  /* ← не сжимается */
+      padding: 16px 0;
+    }
+
+    #schedule-page-label {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    #week-number-button,
+    #month-name-button {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      height: 32px;
+      border: none;
+      padding: 2px 8px;
+      border-radius: 8px;
+      background: #6c5ce7;
+      cursor: pointer;
+    }
+
+    /* ── Вертикальный скролл уроков ── */
+    #vertical-schedule-viewport {
+      flex: 1;                          /* ← занимает остаток высоты */
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      touch-action: pan-y;
+      overscroll-behavior-y: contain;
+      scrollbar-width: none;
+    }
+
+    .lesson-card {
+      scroll-snap-align: start;
+      min-height: 120px;               /* ← чтобы был что скроллить */
+      margin: 8px 24px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #f1f2f6;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="weeks-viewport">
+
+    <!-- Неделя 1 -->
+    <div class="slide">
+      <div id="schedule-page-head">
+        <div id="schedule-page-label">Расписание</div>
+        <div style="display: flex; gap: 8px;">
+          <button id="week-number-button">10 нед, числ</button>
+          <button id="month-name-button">сент</button>
+        </div>
+      </div>
+      <div id="vertical-schedule-viewport">
+        <div class="lesson-card">Математика · 8:30 · ауд. 301</div>
+        <div class="lesson-card">Физика · 10:15 · ауд. 205</div>
+        <div class="lesson-card">Программирование · 12:00 · ауд. 401</div>
+        <div class="lesson-card">Английский · 13:45 · ауд. 112</div>
+        <div class="lesson-card">Базы данных · 15:30 · ауд. 308</div>
+        <div class="lesson-card">Базы данных · 15:30 · ауд. 308</div>
+        <div class="lesson-card">Базы данных · 15:30 · ауд. 308</div>
+        <div class="lesson-card">Базы данных · 15:30 · ауд. 308</div>
+        <div class="lesson-card">Базы данных · 15:30 · ауд. 308</div>
+      </div>
+    </div>
+
+    <!-- Неделя 2 -->
+    <div class="slide">
+      <div id="schedule-page-head">
+        <div id="schedule-page-label">Расписание</div>
+        <div style="display: flex; gap: 8px;">
+          <button id="week-number-button">11 нед, знам</button>
+          <button id="month-name-button">окт</button>
+        </div>
+      </div>
+      <div id="vertical-schedule-viewport">
+        <div class="lesson-card">Литература · 8:30 · ауд. 105</div>
+        <div class="lesson-card">История · 10:15 · ауд. 210</div>
+        <div class="lesson-card">Алгебра · 12:00 · ауд. 401</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

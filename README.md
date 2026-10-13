@@ -173,3 +173,5 @@ journalctl -u studybot-backup.service -n 10 --no-pager
   и храните отдельно от базы. При потере или замене ключа почтовые аккаунты потребуется подключить заново.
 - `MAIL_HOST` и `MAIL_PORT` — IMAP-сервер для полных адресов других доменов; значения по умолчанию — `mail.bmstu.ru` и `993`.
 - `MAIL_CHECK_INTERVAL` — интервал проверки новых писем в секундах, по умолчанию `300`.
+
+UNIDRAW https://unidraw.io/app/board/276e7ade03ea2305bb04

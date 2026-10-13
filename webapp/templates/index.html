@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>Электронный дневник</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+    {% include 'partials/schedule_lesson_card.html' %}
+    
+    <div class="page-layout">
+        <main class="content">
+            <section class="page active-page" id="page-schedule">
+                {% include 'partials/page-schedule.html' %}
+            </section>
+            <section class="page" id="page-homework">
+                {% include 'partials/page-homework.html' %}
+            </section>
+            <section class="page" id="page-profile">
+                {% include 'partials/page-profile.html' %}
+            </section>
+        </main>
+
+
+        <nav class="navigation">
+            <button data-page="page-schedule" id="btn-schedule" class="nav-button">
+                <div class="nav-button-div">
+                    <img src="{{ url_for('static', filename='Schedule24.svg') }}"
+                        width="24" height="24" alt="Расписание" class="nav-button-image">
+                    <h5 class="nav-button-text">Расписание</h5>
+                </div>
+            </button>
+            <button data-page="page-homework" id="btn-homework" class="nav-button">
+                <div class="nav-button-div">
+                    <img src="{{ url_for('static', filename='Schedule24.svg') }}"
+                        width="24" height="24" alt="Д/З" class="nav-button-image">
+                    <h5 class="nav-button-text">Д/З</h5>
+                </div>
+            </button>
+            <button data-page="page-profile" id="btn-profile" class="nav-button">
+                <div class="nav-button-div">
+                    <img src="{{ url_for('static', filename='Schedule24.svg') }}"
+                        width="24" height="24" alt="Профиль" class="nav-button-image">
+                    <h5 class="nav-button-text">Профиль</h5>
+                </div>
+            </button>
+        </nav>
+    </div>
+
+    
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        let cur = "page-schedule"
+
+        function nav_click() {
+            const newName = this.dataset.page;
+            if (cur != newName) {
+
+                const lastPage = document.getElementById(cur);
+                const curPage = document.getElementById(newName);
+                lastPage.classList.remove('active-page');
+
+                curPage.classList.add('active-page');
+                cur = newName;
+                console.log(curPage.classList);
+            }
+            else {
+                console.log("Already this page");
+            }
+        }
+
+        const btnSchedule = document.getElementById("btn-schedule");
+        const btnHomework = document.getElementById("btn-homework");
+        const btnProfile = document.getElementById("btn-profile");
+
+
+        btnSchedule.addEventListener("click", nav_click);
+        btnHomework.addEventListener("click", nav_click);
+        btnProfile.addEventListener("click", nav_click);
+
+    </script>
+    
+</body>
+</html>
