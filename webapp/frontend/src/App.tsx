@@ -1,43 +1,20 @@
 import {useState} from 'react';
+import { NavigationBar } from './components/Navigation.js';
+import { ScreenSchedule } from './components/screenSchedule/ScreenSchedule.js';
+import { ScreenComp } from './components/ScreenComp.js';
 
 
-function NavigationButton({id, name, dataPage, isActive, onClick}) {
-    return (
-        <button
-        data-page={dataPage}
-        id={id}
-        className="nav-button">
-            <div className="nav-button-div">
-              <img
-                src=""
-                width={24}
-                height={24}
-                alt="Расписание"
-                className="nav-button-image"
-              />
-              <h5 className="nav-button-text">{name}</h5>
-            </div>
-        </button>
-    ) ;
-}
-
-function NavigationBar() {
-    return (
-        <nav className="navigation">
-            <NavigationButton name="Расписание" data-page="page-schedule" id="btn-schedule"/>
-            <NavigationButton name="Задания" data-page="page-homework" id="btn-homework"/>
-            <NavigationButton name="Профиль" data-page="page-profile" id="btn-profile"/>
-        </nav>
-        );
-}
 
 
 
 function App() {
 
-    const [currentPage, changePage] = useState("schedule");
+    const [currentPage, changePage] = useState("page-schedule");
 
-    
+    const onPageClick = (newPage: string) => {
+      if (newPage !== currentPage)
+        changePage(newPage);
+    }
     
     return (<>
   <meta charSet="UTF-8" />
@@ -47,14 +24,11 @@ function App() {
   />
   <meta name="format-detection" content="telephone=no" />
   <title>Электронный дневник</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <div className="page-layout">
     <main className="content">
-      <section className="page active-page" id="page-schedule"></section>
-      <section className="page" id="page-homework"></section>
-      <section className="page" id="page-profile"></section>
+      <ScreenComp currentPage={currentPage}/>
     </main>
-      <NavigationBar/>
+      <NavigationBar currentPage={currentPage} onPageClick={onPageClick}/>
       {/*    <nav className="navigation">
       <button
         data-page="page-schedule"
