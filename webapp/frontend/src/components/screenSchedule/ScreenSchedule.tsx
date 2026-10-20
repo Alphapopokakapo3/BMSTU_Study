@@ -5,8 +5,10 @@ import { ScheduleLessonCard } from "./ScheduleLessonCard.js";
 import type { LessonDto, ScheduleResponse } from "../../types/api.js";
 import { ScheduleOneDay } from "./ScheduleOneDay.js";
 import { mapDayLessons, toLessonUI } from "../../mappers/lesson.js";
-import {currentWeek, currentWeekType} from "../../lib/scheduleUtils.js"
+import { currentWeek, currentWeekType } from "../../lib/scheduleUtils.js"
 
+const WEEKS = {"ch": "числитель", "zn": "знаменатель"}
+const SHORT_WEEKS = {"ch": "чc", "zn": "зн"}
 
 export function ScreenSchedule() {
 
@@ -27,9 +29,21 @@ export function ScreenSchedule() {
     const [chSchedule, setChSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
     const [znSchedule, setZnSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
 
-    const [scheduleData, setScheduleData] = useState<ScheduleResponse|null>(null);
-
     const [selectedDayDate, setSelectedDayDate] = useState<Date>(new Date())
+    const [selectedWeekDayNum, setSelectedWeekDayNum] = useState<number>((new Date().getDay()+6) % 7);
+
+    const setSelectedWeekDayByDate = (date: Date) => {
+        setSelectedWeekDayNum((date.getDay()+6)%7);
+    }
+
+    const [threeWeeksSchedule, setThreeWeeksSchedule] = useState<LessonDto[][][]>([[], [], []]);
+
+    const [selectedWeekNum, setSelectedWeekNum] = useState<number>(currentWeek());
+
+    function getWeekScheduleByWeekNum(week: number, chSch: LessonDto[][], znSch: LessonDto[][]): LessonDto[][] {
+        return week%2 == 1 ? chSch : znSch;
+    }
+
     
     useEffect(() => {
 
@@ -45,10 +59,21 @@ export function ScreenSchedule() {
                 if (el.week == "zn" || el.week == "all") {
                     newZnSchedule[el.day-1]?.push(el);
                 }
-                setChSchedule(newChSchedule);
-                setZnSchedule(newZnSchedule);
                 
             })
+
+            setChSchedule(newChSchedule);
+            setZnSchedule(newZnSchedule);
+
+            const generatedWeeksSchedule = [
+                selectedWeekNum - 1,
+                selectedWeekNum,
+                selectedWeekNum + 1
+            ].map(el => getWeekScheduleByWeekNum(el, newChSchedule, newZnSchedule))
+
+            setThreeWeeksSchedule(generatedWeeksSchedule);
+            console.log(generatedWeeksSchedule)
+            
         });}, []);
 
     
@@ -57,15 +82,19 @@ export function ScreenSchedule() {
             <div id="schedule-page-head">
                 <span id="schedule-page-label">Расписание</span>
                 <div id="week-info">
-                    <button id="week-number-button">10 нед, числ</button>
+                    <button id="week-number-button">{selectedWeekNum} нед, {SHORT_WEEKS[selectedWeekNum%2==1 ? "ch" : "zn"]}</button>
                     <button id="month-name-button">сент</button>
                 </div>
             </div>
             <div id="weeks-viewport" />
             <div id="horizontal-schedule-viewport">
                 <ScheduleOneDay lessons={
-                    mapDayLessons(chSchedule[4] ?? [])
+                    mapDayLessons(threeWeeksSchedule?.[1]?.[selectedWeekDayNum] ?? [])
                 }/>
+                <ScheduleOneDay lessons={
+                    mapDayLessons(threeWeeksSchedule?.[1]?.[selectedWeekDayNum+1] ?? [])
+                }/>
+                
             </div>
         </div>
 
