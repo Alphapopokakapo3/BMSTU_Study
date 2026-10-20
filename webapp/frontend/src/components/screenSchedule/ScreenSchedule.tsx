@@ -5,6 +5,7 @@ import { ScheduleLessonCard } from "./ScheduleLessonCard.js";
 import type { LessonDto, ScheduleResponse } from "../../types/api.js";
 import { ScheduleOneDay } from "./ScheduleOneDay.js";
 import { mapDayLessons, toLessonUI } from "../../mappers/lesson.js";
+import {currentWeek, currentWeekType} from "../../lib/scheduleUtils.js"
 
 
 export function ScreenSchedule() {
@@ -27,6 +28,8 @@ export function ScreenSchedule() {
     const [znSchedule, setZnSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
 
     const [scheduleData, setScheduleData] = useState<ScheduleResponse|null>(null);
+
+    const [selectedDayDate, setSelectedDayDate] = useState<Date>(new Date())
     
     useEffect(() => {
 
@@ -46,9 +49,9 @@ export function ScreenSchedule() {
                 setZnSchedule(newZnSchedule);
                 
             })
-        });}, [])
-    
+        });}, []);
 
+    
     return (
         <div id="schedule-page-content">
             <div id="schedule-page-head">
