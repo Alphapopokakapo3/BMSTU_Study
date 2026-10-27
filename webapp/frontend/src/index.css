@@ -358,13 +358,15 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
-    touch-action: pan-y;
     overscroll-behavior-y: contain;
 
     scrollbar-width: none;
+    scroll-snap-align: start;
+
+    scroll-snap-stop: always;
 }
 
 #horizontal-schedule-viewport {
@@ -375,7 +377,11 @@ body {
     display: flex;
     overflow-x: auto;
 
-    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+
+    scroll-snap-type: x mandatory;
+
+    
 }
 
 .lesson-card {

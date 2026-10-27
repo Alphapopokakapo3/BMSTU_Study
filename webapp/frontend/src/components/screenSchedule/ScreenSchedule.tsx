@@ -94,6 +94,9 @@ export function ScreenSchedule() {
                 <ScheduleOneDay lessons={
                     mapDayLessons(threeWeeksSchedule?.[1]?.[selectedWeekDayNum+1] ?? [])
                 }/>
+                <ScheduleOneDay lessons={
+                    mapDayLessons(threeWeeksSchedule?.[1]?.[selectedWeekDayNum+2] ?? [])
+                }/>
                 
             </div>
         </div>
