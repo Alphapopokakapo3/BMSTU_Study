@@ -53,7 +53,7 @@ export function toLessonUI(dto: LessonDto, nextDto: LessonDto | null, currentTim
         audiences: audiences,
         lessonName: dto.discipline.fullName,
         lessonTypeText: lessonTypeText,
-        lessonTypeCode: "seminar",
+        lessonTypeCode: dto.discipline.actType,
         teachers: teachersNames,
         homeworkText: [],
         breakTime: breakTime,

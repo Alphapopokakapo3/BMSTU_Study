@@ -3,8 +3,10 @@ import type {WeekLiter} from '../types/general.ts'
 const SEMESTER_START = new Date('2026-08-31T00:00:00.000+00:03');
 
 export function currentWeek(date: Date = new Date(), semester_start: Date = SEMESTER_START): number {
-    const diffDays = (date - semester_start) / (1000 * 60 * 60 * 24);
-    const diffWeeks = Math.floor(diffDays/7);
+    const nDate = new Date(date);
+    nDate.setHours(0,0,0,0);
+    const diffDays = (nDate - semester_start) / (1000 * 60 * 60 * 24);
+    const diffWeeks = Math.floor((diffDays+1)/7);
 
     return diffWeeks + 1;
 }

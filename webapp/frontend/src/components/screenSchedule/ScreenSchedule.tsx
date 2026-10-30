@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { getSchedule } from "../../lib/api/schedule.js";
 import type { LessonUIModel } from "../../types/scheduleUI.js";
 import { ScheduleLessonCard } from "./ScheduleLessonCard.js";
@@ -6,9 +6,11 @@ import type { LessonDto, ScheduleResponse } from "../../types/api.js";
 import { ScheduleOneDay } from "./ScheduleOneDay.js";
 import { mapDayLessons, toLessonUI } from "../../mappers/lesson.js";
 import { currentWeek, currentWeekType } from "../../lib/scheduleUtils.js"
+import { WeekBlock } from "./WeekBlock.js";
 
-const WEEKS = {"ch": "числитель", "zn": "знаменатель"}
-const SHORT_WEEKS = {"ch": "чc", "zn": "зн"}
+const WEEKS = {"ch": "числитель", "zn": "знаменатель"};
+const SHORT_WEEKS = {"ch": "чc", "zn": "зн"};
+const MONTHS = ["янв", "фев", "март", "апр", "май", "июнь", "июль", "авг", "сент", "окт", "ноя", "дек"];
 
 export function ScreenSchedule() {
 
@@ -26,22 +28,75 @@ export function ScreenSchedule() {
     //     isLast: false
     // }
 
+    const addDays = (date: Date, amount: number) => {
+        const newDate = new Date(date);
+        
+        newDate.setDate(newDate.getDate() + amount)
+        return newDate;
+    }
+
+    function getWeekStart(date: Date): Date {
+        const monday = new Date(date);
+        const daysSinceMonday = (monday.getDay() + 6) % 7;
+
+        monday.setDate(monday.getDate() - daysSinceMonday);
+        monday.setHours(0,0,0,0);
+
+        return monday;
+    }
+
     const [chSchedule, setChSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
     const [znSchedule, setZnSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
 
-    const [selectedDayDate, setSelectedDayDate] = useState<Date>(new Date())
-    const [selectedWeekDayNum, setSelectedWeekDayNum] = useState<number>((new Date().getDay()+6) % 7);
+    const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
+    const prevDate = addDays(selectedDate, -1);
+    const nextDate = addDays(selectedDate, 1);
+    const prev2Date = addDays(selectedDate, -2);
+    const next2Date = addDays(selectedDate, 2);
 
-    const setSelectedWeekDayByDate = (date: Date) => {
-        setSelectedWeekDayNum((date.getDay()+6)%7);
+    const [selectedWeek, setSelectedWeek] = useState<Date>(() => getWeekStart(selectedDate));
+    const prevWeek = addDays(selectedWeek, -7);
+    const nextWeek = addDays(selectedWeek, 7);
+    
+
+    const shiftDay = (amount: number) => {
+        setSelectedDate(date => {
+            const next = new Date(date);
+
+            next.setDate(next.getDate() + amount);
+
+            setSelectedWeek(getWeekStart(next));
+            return next;
+        })
     }
 
-    const [threeWeeksSchedule, setThreeWeeksSchedule] = useState<LessonDto[][][]>([[], [], []]);
+    const shiftWeek = (amount: number) => {
+        setSelectedWeek(date => (addDays(date, amount*7)))
+    }
+
+    const toggleDayClick = (newDate: Date) => {
+        if (newDate !== selectedDate)
+            setSelectedDate(newDate);
+    }
+    
+
+
+    // const [selectedDayDate, setSelectedDayDate] = useState<Date>(new Date())
+    // const [selectedWeekDayNum, setSelectedWeekDayNum] = useState<number>((new Date().getDay()+6) % 7);
+
+    // const setSelectedWeekDayByDate = (date: Date) => {
+    //     setSelectedWeekDayNum((date.getDay()+6)%7);
+    // }
+
 
     const [selectedWeekNum, setSelectedWeekNum] = useState<number>(currentWeek());
 
     function getWeekScheduleByWeekNum(week: number, chSch: LessonDto[][], znSch: LessonDto[][]): LessonDto[][] {
         return week%2 == 1 ? chSch : znSch;
+    }
+
+    function getLessonsForDate(date: Date, chSch: LessonDto[][], znSch: LessonDto[][]): LessonDto[] {
+        return getWeekScheduleByWeekNum(currentWeek(date), chSch, znSch)[(date.getDay() + 6) % 7] ?? [];
     }
 
     
@@ -64,17 +119,33 @@ export function ScreenSchedule() {
 
             setChSchedule(newChSchedule);
             setZnSchedule(newZnSchedule);
-
-            const generatedWeeksSchedule = [
-                selectedWeekNum - 1,
-                selectedWeekNum,
-                selectedWeekNum + 1
-            ].map(el => getWeekScheduleByWeekNum(el, newChSchedule, newZnSchedule))
-
-            setThreeWeeksSchedule(generatedWeeksSchedule);
-            console.log(generatedWeeksSchedule)
             
         });}, []);
+    
+    useEffect(() => {
+        // console.log(selectedDate);
+        setSelectedWeekNum(currentWeek(selectedDate));
+    }, [selectedDate]);
+
+
+    const viewportScheduleRef = useRef<HTMLDivElement>(null);
+    const viewportWeeksRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const viewport = viewportScheduleRef.current;
+        if (viewport) {
+            viewport.scrollLeft = viewport.clientWidth*2;
+        }
+    }, [selectedDate])
+
+    useLayoutEffect(() => {
+        const viewport = viewportWeeksRef.current;
+        if (viewport) {
+            viewport.scrollLeft = viewport.clientWidth;
+        }
+        // console.log("change");
+    }, [selectedWeek])
+
 
     
     return (
@@ -83,19 +154,57 @@ export function ScreenSchedule() {
                 <span id="schedule-page-label">Расписание</span>
                 <div id="week-info">
                     <button id="week-number-button">{selectedWeekNum} нед, {SHORT_WEEKS[selectedWeekNum%2==1 ? "ch" : "zn"]}</button>
-                    <button id="month-name-button">сент</button>
+                    <button id="month-name-button">{MONTHS[selectedDate.getMonth()]}</button>
                 </div>
             </div>
-            <div id="weeks-viewport" />
-            <div id="horizontal-schedule-viewport">
+            <div id="weeks-viewport"
+                ref={viewportWeeksRef}
+                onScrollEnd={(event) => {
+                    const viewport = event.currentTarget;
+                    const pageWidth = viewport.clientWidth;
+
+                    if (pageWidth === 0) return;
+
+                    const pageIndex = Math.round(viewport.scrollLeft / pageWidth);
+                    const pageOffset = pageIndex - 1;
+
+                    if (pageOffset !== 0)
+                        shiftWeek(pageOffset);
+                }}>
+                <WeekBlock weekStart={prevWeek} activeDate={selectedDate} onDayClick={toggleDayClick}/>
+                <WeekBlock weekStart={selectedWeek} activeDate={selectedDate} onDayClick={toggleDayClick}/>
+                <WeekBlock weekStart={nextWeek} activeDate={selectedDate} onDayClick={toggleDayClick}/>
+            </div>
+            <div id="horizontal-schedule-viewport"
+                ref={viewportScheduleRef}
+                
+                onScrollEnd={(event) => {
+                    const viewport = event.currentTarget;
+                    const pageWidth = viewport.clientWidth;
+                    if (pageWidth === 0) return;
+
+                    const pageIndex = Math.round(viewport.scrollLeft / pageWidth);
+                    
+                    const pageOffset = pageIndex - 2;
+
+                    if (pageOffset !== 0)
+                        shiftDay(pageOffset);
+            }}>
+                
                 <ScheduleOneDay lessons={
-                    mapDayLessons(threeWeeksSchedule?.[1]?.[selectedWeekDayNum] ?? [])
+                    mapDayLessons(getLessonsForDate(prev2Date, chSchedule, znSchedule))
                 }/>
                 <ScheduleOneDay lessons={
-                    mapDayLessons(threeWeeksSchedule?.[1]?.[selectedWeekDayNum+1] ?? [])
+                    mapDayLessons(getLessonsForDate(prevDate, chSchedule, znSchedule))
                 }/>
                 <ScheduleOneDay lessons={
-                    mapDayLessons(threeWeeksSchedule?.[1]?.[selectedWeekDayNum+2] ?? [])
+                    mapDayLessons(getLessonsForDate(selectedDate, chSchedule, znSchedule))
+                }/>
+                <ScheduleOneDay lessons={
+                    mapDayLessons(getLessonsForDate(nextDate, chSchedule, znSchedule))
+                }/>
+                <ScheduleOneDay lessons={
+                    mapDayLessons(getLessonsForDate(next2Date, chSchedule, znSchedule))
                 }/>
                 
             </div>

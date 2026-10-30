@@ -22,3 +22,7 @@ def get_schedule():
         return json.loads(cached["payload"])
     else:
         raise ValueError("Нет подходящего cache")
+
+
+def get_homework():
+    pass

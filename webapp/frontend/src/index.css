@@ -35,6 +35,8 @@ body {
     --text-second: #404040;
     --text-third: #666666;
 
+    --surface-second: #e6e6e6;
+
     --seminar: #47CEFF;
     --lection: #006CDC;
     --laboratory: #FFB24F;
@@ -328,11 +330,18 @@ body {
     color: var(--text-first);
 }
 
+#week-info {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
 #week-number-button {
     font-family: 'Nunito SemiBold';
     font-size: 16px;
     color: white;
     height: 32px;
+    width: 104px;
 
     background-color: var(--primary);
     border: none;
@@ -346,12 +355,25 @@ body {
     font-size: 16px;
     color: white;
     height: 32px;
+    width: 56px;
 
     background-color: var(--primary);
     border: none;
     padding: 2px 8px;
     border-radius: 8px;
 }
+
+#weeks-viewport {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+}
+
 
 .vertical-schedule-viewport {
     flex: 0 0 100%;
@@ -373,6 +395,7 @@ body {
     flex: 1;
     min-height: 0;
     height: 100%;
+    margin-top: 8px;
 
     display: flex;
     overflow-x: auto;
@@ -394,3 +417,35 @@ body {
     min-height: 0;
     height: 100%;
 }
+
+
+.homework-check-box-button {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+}
+
+.homework-check-box {
+    width: 32px;
+    height: 32px;
+    background-color: var(--surface-second);
+    border-radius: 8px;
+}
+
+.homework-check-box.active {
+    background-color: var(--primary);
+}
+
+/* .homework-check-box::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #C0C0C0;
+    
+} */
