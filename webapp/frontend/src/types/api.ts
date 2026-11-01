@@ -46,3 +46,23 @@ export type ScheduleResponse = {
     type: string,
     uuid: string
 }
+
+
+export type HomeworkDto = {
+    attachment: string,
+    author_id: number,
+    author_name: string,
+    created_at: string,
+    deleted: boolean,
+    delivery: string,
+    description: string,
+    done: boolean,
+    due_at: string,
+    due_week: number,
+    id: number,
+    kind: string,
+    lesson_type: string,
+    subject: string,
+    title: string,
+    version: number
+}

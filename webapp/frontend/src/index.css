@@ -397,6 +397,8 @@ body {
     height: 100%;
     margin-top: 8px;
 
+    scrollbar-width: none;
+
     display: flex;
     overflow-x: auto;
 
@@ -419,6 +421,40 @@ body {
 }
 
 
+
+.homework-week-block {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+    background-color: #FFFFFF;
+}
+
+.homework-week-title {
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 20px;
+    color: var(--text-third);
+}
+
+.homework-discipline-title {
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 16px;
+    color: #000000;
+}
+
+.homework-date-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.homework-date-title {
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 16px;
+    color: var(--text-second);
+
+}
+
 .homework-check-box-button {
     width: 48px;
     height: 48px;
@@ -438,6 +474,38 @@ body {
 
 .homework-check-box.active {
     background-color: var(--primary);
+}
+
+.homework-tile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.homework-tile-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.homework-tile-tag {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 16px;
+    background-color: var(--primary);
+    border-radius: 4px;
+    color: #FFFFFF;
+    margin-right: 4px;
+    font-family: 'Nunito';
+    font-size: 12px;
+}
+
+.homework-tile-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
 }
 
 /* .homework-check-box::after {

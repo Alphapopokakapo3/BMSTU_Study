@@ -1,11 +1,9 @@
-import type { HomeworkUI, HomeworkWeekList } from "../../types/homework.js"
+import type { LessonType } from "../../types/general.js"
+import type { HomeworkUI } from "../../types/homework.js"
 
-type HomeworkWeekBlockProps = {
-    homeworkList: HomeworkWeekList
-}
 
-type HomeworkDisciplineBlockProps = {
-    name: string,
+
+export type HomeworkDisciplineBlockProps = {
     homeworkList: HomeworkUI[]
 }
 
@@ -14,17 +12,26 @@ type OneHomeworkTileProps = {
 }
 
 type HomeworkCheckBoxButtonProps = {
-    isActive: boolean
+    isActive: boolean,
+    onClick: () => void
 }
 
+type HomeworkDateBlockProps = {
+    homeworkList: HomeworkUI[]
+}
+
+const lessonTypeName = new Map<LessonType, string>()
+lessonTypeName.set("lab", "лаб");
+lessonTypeName.set("lecture", "лек");
+lessonTypeName.set("seminar", "сем");
+lessonTypeName.set("unknown", "");
 
 
-
-function HomeworkCheckBoxButton({isActive}: HomeworkCheckBoxButtonProps) {
-    const squareClassName = isActive ? "homework-check-box active" : "homework-check-box"
+function HomeworkCheckBoxButton({isActive, onClick}: HomeworkCheckBoxButtonProps) {
+    const squareClassName = isActive ? "homework-check-box active" : "homework-check-box";
 
     return (
-        <button className="homework-check-box-button">
+        <button className="homework-check-box-button" onClick={onClick}>
             <div className={squareClassName}></div>
         </button>
     );
@@ -32,49 +39,60 @@ function HomeworkCheckBoxButton({isActive}: HomeworkCheckBoxButtonProps) {
 
 export function OneHomeworkTile({homework}: OneHomeworkTileProps) {
     return (
-        <div>
-            <HomeworkCheckBoxButton isActive={true}/>
-            <span>{homework.lessonType}</span>
-            <span>{homework.text}</span>
+        <div className="homework-tile">
+            <HomeworkCheckBoxButton isActive={homework.done} onClick={() => {}}/>
+            <div className="homework-tile-content">
+                <span className="homework-tile-tag">{lessonTypeName.get(homework.lessonType)}</span>
+                <span className="homework-tile-text">{homework.text}</span>
+            </div>
         </div>
     );
 }
 
-export function HomeworkDisciplineBlock({name, homeworkList}: HomeworkDisciplineBlockProps) {
-    
-    const listByDeadline = new Map<string,HomeworkUI[]>();
-
-    homeworkList.forEach((homework) => {
-        const deadlineDate = new Date(homework.deadline);
-        deadlineDate.setHours(0,0,0,0);
-
-        const key = deadlineDate.toISOString();
-        const items = listByDeadline.get(key);
-
-        if (items) {
-            items.push(homework);
-        }
-        else {
-            listByDeadline.set(key, [homework]);
-        }
-    })
-    
-    
+export function HomeworkDisciplineBlock({homeworkList}: HomeworkDisciplineBlockProps) {
     return (
-        <div>
-            <span>{name}</span>
-            <span></span>
-            <OneHomeworkTile homework={homeworkList[0]}/>
+        <div className="homework-discipline-block">
+            <span className="homework-discipline-title">{homeworkList[0]?.discipline}</span>
+            {
+                homeworkList.map(h => (
+                    <OneHomeworkTile homework={h}/>
+                ))
+            }
         </div>
     );
 }
 
-export function HomeworkWeekBlock({homeworkList}: HomeworkWeekBlockProps) {
+function HomeworkDateBlock({homeworkList}: HomeworkDateBlockProps) {
+    const byName = Map.groupBy(homeworkList, (h) => h.discipline);
+
     return (
-        <div>
-            <span>НЕДЕЛЯ 5</span>
+        <div className="homework-date-block">
+            <span className="homework-date-title">{`${homeworkList[0]?.deadline.getDate()}.${homeworkList[0]?.deadline.getMonth()}`}</span>
             <div>
-                {<HomeworkDisciplineBlock {...HomeworkDisciplineBlockMock}/>}
+                {
+                    [...byName].map(([name, items]) => (
+                        <HomeworkDisciplineBlock homeworkList={items}/>
+                    ))
+                }
+            </div>
+        </div>
+    );
+}
+
+export function HomeworkWeekBlock({homeworkList}: HomeworkDisciplineBlockProps) {
+
+    const byDate = Map.groupBy(homeworkList, (h) => new Date(h.deadline).setHours(0,0,0,0));
+
+    return (
+        <div className="homework-week-block">
+            <span className="homework-week-title">НЕДЕЛЯ {homeworkList[0]?.deadlineWeek}</span>
+            <div>
+                {
+                    [...byDate].map(([date, items]) => (
+                        <HomeworkDateBlock homeworkList={items}/>
+                    ))
+                }
+                {}
             </div>
         </div>
     );

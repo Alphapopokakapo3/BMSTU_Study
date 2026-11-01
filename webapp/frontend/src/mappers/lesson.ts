@@ -28,7 +28,7 @@ export function toLessonUI(dto: LessonDto, nextDto: LessonDto | null, currentTim
     }
 
     let isActive = false;
-    isActive = (curMin >= startHour*60+startMin) && (curMin < (endHour*60+endMin));
+    isActive = (curMin >= startHour*60+startMin) && (curMin < (endHour*60+endMin) && (new Date(lessonDate).setHours(0,0,0,0)) === new Date(currentTime).setHours(0,0,0,0));
 
     
     switch (dto.discipline.actType) {
