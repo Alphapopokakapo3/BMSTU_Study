@@ -27,9 +27,9 @@ def get_schedule():
 def json_homework_from_row(row: Row):
     return dict(row)
 
-def get_all_homework():
+def get_all_homework(user_id):
     db = Database(database_path)
-    homework_data = db.homework_list(1000172856)
+    homework_data = db.homework_list(user_id)
 
     homework = [json_homework_from_row(row) for row in homework_data]
 

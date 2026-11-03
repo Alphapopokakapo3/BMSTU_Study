@@ -72,6 +72,7 @@ export function ScreenSchedule() {
 
     const shiftWeek = (amount: number) => {
         setSelectedWeek(date => (addDays(date, amount*7)))
+        console.log("shift");
     }
 
     const toggleDayClick = (newDate: Date) => {

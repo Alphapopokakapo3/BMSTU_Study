@@ -422,6 +422,14 @@ body {
 
 
 
+.homework-viewport {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 8px
+}
+
+
 .homework-week-block {
     padding-left: 12px;
     padding-right: 12px;
@@ -429,6 +437,7 @@ body {
     padding-bottom: 8px;
 
     background-color: #FFFFFF;
+    border-radius: 16px;
 }
 
 .homework-week-title {

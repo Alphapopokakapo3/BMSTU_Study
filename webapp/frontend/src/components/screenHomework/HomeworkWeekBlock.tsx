@@ -1,5 +1,7 @@
+import { useContext } from "react"
 import type { LessonType } from "../../types/general.js"
 import type { HomeworkUI } from "../../types/homework.js"
+import { ClickContext } from "./ClickContext.js"
 
 
 
@@ -38,9 +40,10 @@ function HomeworkCheckBoxButton({isActive, onClick}: HomeworkCheckBoxButtonProps
 }
 
 export function OneHomeworkTile({homework}: OneHomeworkTileProps) {
+    const handleClick = useContext(ClickContext);
     return (
         <div className="homework-tile">
-            <HomeworkCheckBoxButton isActive={homework.done} onClick={() => {}}/>
+            <HomeworkCheckBoxButton isActive={homework.done} onClick={() => {handleClick(homework.id)}}/>
             <div className="homework-tile-content">
                 <span className="homework-tile-tag">{lessonTypeName.get(homework.lessonType)}</span>
                 <span className="homework-tile-text">{homework.text}</span>

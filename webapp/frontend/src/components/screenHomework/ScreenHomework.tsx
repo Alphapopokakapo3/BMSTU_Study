@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { HomeworkDisciplineBlock, HomeworkWeekBlock } from "./HomeworkWeekBlock.js";
 import type {HomeworkDisciplineBlockProps} from "./HomeworkWeekBlock.js"
 import type { HomeworkUI } from "../../types/homework.js";
-import { getAllSchedule } from "../../lib/api/homework.js";
+import { getAllSchedule, toggleHomeworkDone } from "../../lib/api/homework.js";
 import { homeworkDtoListToHomeworkUI } from "../../mappers/homework.js";
+import { ClickContext } from "./ClickContext.js";
 
 
 // const HomeworkDisciplineBlockMock: HomeworkDisciplineBlockProps = {
@@ -46,15 +47,22 @@ export function ScreenHomework() {
 
     const byWeek = Map.groupBy(homeworkList, (h) => h.deadlineWeek);
     
+    const handleToggleHomeworkClick = (homeworkId: number) => {
+        toggleHomeworkDone(homeworkId).then(data => {
+            setHomeworkList(homeworkDtoListToHomeworkUI(data));
+        })
+    }
 
 
     return (
-        <div>
+        <ClickContext.Provider value = {handleToggleHomeworkClick}>
+        <div className="homework-viewport">
             {
                 [...byWeek].map(([week, items]) => (
                     <HomeworkWeekBlock homeworkList={items}/>
                 ))
             }
         </div>
+        </ClickContext.Provider>
     );
 }
