@@ -66,3 +66,7 @@ export type HomeworkDto = {
     title: string,
     version: number
 }
+
+export type MockInitDataResponse = {
+    initData: string
+}

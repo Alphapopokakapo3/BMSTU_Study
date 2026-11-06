@@ -7,3 +7,4 @@ data/
 .idea/
 tests/
 .vite
+access_tokens.json

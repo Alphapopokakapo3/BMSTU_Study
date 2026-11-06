@@ -24,7 +24,7 @@ export function toLessonUI(dto: LessonDto, nextDto: LessonDto | null, currentTim
         isLast = true;
     } else {
         breakTime = (nextDto.startTimeHourNum - endHour) * 60 + nextDto.startTimeMinNum - endMin;
-        isBreak = curMin >= (endHour*60+endMin) && curMin < (nextDto.startTimeHourNum*60 + nextDto.startTimeMinNum);
+        isBreak = curMin >= (endHour*60+endMin) && curMin < (nextDto.startTimeHourNum*60 + nextDto.startTimeMinNum) && (new Date(lessonDate).setHours(0,0,0,0)) === new Date(currentTime).setHours(0,0,0,0);
     }
 
     let isActive = false;
@@ -66,9 +66,9 @@ export function toLessonUI(dto: LessonDto, nextDto: LessonDto | null, currentTim
 }
 
 
-export function mapDayLessons(dayLessons: LessonDto[]): LessonUIModel[] {
+export function mapDayLessons(dayLessons: LessonDto[], lessonsDate: Date): LessonUIModel[] {
     return dayLessons.map((currentLesson, index, array) => {
         const nextLesson = array[index+1] || null;
-        return toLessonUI(currentLesson, nextLesson, new Date(), new Date());
+        return toLessonUI(currentLesson, nextLesson, new Date(), lessonsDate);
     })
 }

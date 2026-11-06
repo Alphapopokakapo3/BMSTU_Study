@@ -26,7 +26,7 @@ const lessonTypeName = new Map<LessonType, string>()
 lessonTypeName.set("lab", "лаб");
 lessonTypeName.set("lecture", "лек");
 lessonTypeName.set("seminar", "сем");
-lessonTypeName.set("unknown", "");
+// lessonTypeName.set("unknown", "");
 
 
 function HomeworkCheckBoxButton({isActive, onClick}: HomeworkCheckBoxButtonProps) {
@@ -41,11 +41,12 @@ function HomeworkCheckBoxButton({isActive, onClick}: HomeworkCheckBoxButtonProps
 
 export function OneHomeworkTile({homework}: OneHomeworkTileProps) {
     const handleClick = useContext(ClickContext);
+
     return (
         <div className="homework-tile">
             <HomeworkCheckBoxButton isActive={homework.done} onClick={() => {handleClick(homework.id)}}/>
             <div className="homework-tile-content">
-                <span className="homework-tile-tag">{lessonTypeName.get(homework.lessonType)}</span>
+                {lessonTypeName.get(homework.lessonType) ? <span className="homework-tile-tag">{lessonTypeName.get(homework.lessonType)}</span> : <span></span>}
                 <span className="homework-tile-text">{homework.text}</span>
             </div>
         </div>
@@ -58,7 +59,7 @@ export function HomeworkDisciplineBlock({homeworkList}: HomeworkDisciplineBlockP
             <span className="homework-discipline-title">{homeworkList[0]?.discipline}</span>
             {
                 homeworkList.map(h => (
-                    <OneHomeworkTile homework={h}/>
+                    <OneHomeworkTile key={h.id} homework={h}/>
                 ))
             }
         </div>

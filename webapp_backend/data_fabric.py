@@ -16,6 +16,8 @@ MOSCOW = ZoneInfo("Europe/Moscow")
 
 from studybot.schedule import validate_payload
 
+
+
 def get_schedule():
     db = Database(database_path)
     cached = db.cache(group_uuid)
@@ -34,3 +36,17 @@ def get_all_homework(user_id):
     homework = [json_homework_from_row(row) for row in homework_data]
 
     return homework
+
+def get_user_by_id(user_id: int):
+    db = Database(database_path)
+
+    user = db.user(user_id)
+
+    return user
+
+def get_homework_by_id(homework_id: int, user_id: int):
+    db = Database(database_path)
+
+    homework = db.homework(homework_id, user_id)
+
+    return dict(homework) if homework else {}

@@ -8,3 +8,4 @@ export async function getAllSchedule(user_id: number): Promise<HomeworkDto[]> {
 export async function toggleHomeworkDone(homeworkId: number): Promise<HomeworkDto[]> {
     return await post<HomeworkDto[]>(`/api/homework/toggle_done/${homeworkId}`);
 }
+

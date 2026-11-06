@@ -12,6 +12,7 @@ const WEEKS = {"ch": "числитель", "zn": "знаменатель"};
 const SHORT_WEEKS = {"ch": "чc", "zn": "зн"};
 const MONTHS = ["янв", "фев", "март", "апр", "май", "июнь", "июль", "авг", "сент", "окт", "ноя", "дек"];
 
+
 export function ScreenSchedule() {
 
     // const testLessonUI: LessonUIModel = {
@@ -27,6 +28,8 @@ export function ScreenSchedule() {
     //     isBreak: true,
     //     isLast: false
     // }
+
+    // const [loadingStatus, setLoadingStatus] = useState("idle");
 
     const addDays = (date: Date, amount: number) => {
         const newDate = new Date(date);
@@ -193,19 +196,19 @@ export function ScreenSchedule() {
             }}>
                 
                 <ScheduleOneDay lessons={
-                    mapDayLessons(getLessonsForDate(prev2Date, chSchedule, znSchedule))
+                    mapDayLessons(getLessonsForDate(prev2Date, chSchedule, znSchedule), prev2Date)
                 }/>
                 <ScheduleOneDay lessons={
-                    mapDayLessons(getLessonsForDate(prevDate, chSchedule, znSchedule))
+                    mapDayLessons(getLessonsForDate(prevDate, chSchedule, znSchedule), prevDate)
                 }/>
                 <ScheduleOneDay lessons={
-                    mapDayLessons(getLessonsForDate(selectedDate, chSchedule, znSchedule))
+                    mapDayLessons(getLessonsForDate(selectedDate, chSchedule, znSchedule), selectedDate)
                 }/>
                 <ScheduleOneDay lessons={
-                    mapDayLessons(getLessonsForDate(nextDate, chSchedule, znSchedule))
+                    mapDayLessons(getLessonsForDate(nextDate, chSchedule, znSchedule), nextDate)
                 }/>
                 <ScheduleOneDay lessons={
-                    mapDayLessons(getLessonsForDate(next2Date, chSchedule, znSchedule))
+                    mapDayLessons(getLessonsForDate(next2Date, chSchedule, znSchedule), next2Date)
                 }/>
                 
             </div>

@@ -59,7 +59,7 @@ export function ScreenHomework() {
         <div className="homework-viewport">
             {
                 [...byWeek].map(([week, items]) => (
-                    <HomeworkWeekBlock homeworkList={items}/>
+                    <HomeworkWeekBlock key={"week"+week} homeworkList={items}/>
                 ))
             }
         </div>

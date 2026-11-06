@@ -1,9 +1,9 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { NavigationBar } from './components/Navigation.js';
 import { ScreenSchedule } from './components/screenSchedule/ScreenSchedule.js';
 import { ScreenComp } from './components/ScreenComp.js';
-
-
+import { getInitData, authorizationByInitData } from './lib/api/global.js';
+import { HashRouter, Route } from 'react-router';
 
 
 
@@ -15,6 +15,14 @@ function App() {
       if (newPage !== currentPage)
         changePage(newPage);
     }
+
+    useEffect(() => {
+      window.Telegram?.WebApp?.expand()
+
+      getInitData().then(data => {
+        authorizationByInitData(data);
+      });
+    }, [])
     
     return (<>
   <meta charSet="UTF-8" />

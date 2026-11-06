@@ -104,6 +104,10 @@ body {
     max-height: 64px;
 }
 
+a.active-now * {
+    color: var(--primary);
+}
+
 .navigation {
     display: flex;
     justify-content: space-evenly;
@@ -389,6 +393,9 @@ body {
     scroll-snap-align: start;
 
     scroll-snap-stop: always;
+    
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 #horizontal-schedule-viewport {
@@ -479,10 +486,12 @@ body {
     height: 32px;
     background-color: var(--surface-second);
     border-radius: 8px;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, .1);
 }
 
 .homework-check-box.active {
     background-color: var(--primary);
+    box-shadow: none;
 }
 
 .homework-tile {
@@ -526,3 +535,93 @@ body {
     background: #C0C0C0;
     
 } */
+
+
+.slider {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--surface-second);
+    padding: 2px;
+    border-radius: 9px;
+    height: 48px;
+}
+
+.slider-button {
+    background-color: transparent;
+    border: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.slider-button.active {
+    background-color: var(--primary);
+}
+
+.slider-button-text {
+    font-family: 'Nunito Bold';
+    font-size: 20px;
+    color: var(--text-first);
+}
+
+.slider-button-text.active {
+    color: #FFFFFF;
+}
+
+.select-custom {
+    width: 100%;
+    height: 48px;
+    border-radius: 16px;
+    border-width: 2px;
+    border-color: var(--primary);
+    /* appearance: none; */
+    outline: none;
+    background-color: transparent;
+    padding: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+}
+
+.select-custom-option {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+}
+
+.button-custom {
+    background-color: var(--primary);
+    border-radius: 12px;
+    border: none;
+    padding: 8px;
+}
+
+.button-custom-text {
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.near-lesson-button {
+    height: 64px;
+    width: 130px;
+}
+
+.select-week {
+    border-radius: 12px;
+    border-width: 4px;
+    border-color: var(--primary);
+    height: 48px;
+    width: 64px;
+    outline: none;
+    appearance: none;
+
+    font-family: 'Nunito', sans-serif;
+    font-size: 32px;
+
+    text-align: center;
+}
+
+.select-week-option {
+    font-size: 16px;
+}
+

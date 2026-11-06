@@ -8,6 +8,6 @@ group_uuid = os.getenv("GROUP_UUID", "ab0c54d0-1624-11f1-9d39-005056aae53e")
 def toggle_homework_done(homework_id, user_id):
     db = Database(database_path)
 
-    db.toggle_homework_done(homework_id, user_id)
+    return db.toggle_homework_done(homework_id, user_id)
 
-    return db.homework_list(user_id)
+

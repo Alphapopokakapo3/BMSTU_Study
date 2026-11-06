@@ -1,10 +1,9 @@
+import { Link, NavLink } from "react-router";
 
 
 type NavigationButtonProps = {
     id: string,
-    name: string,
-    isActive: boolean,
-    onClick: () => void
+    name: string
 }
 
 type NavigationBarProps = {
@@ -13,12 +12,11 @@ type NavigationBarProps = {
 }
 
 
-function NavigationButton({id, name, isActive, onClick}: NavigationButtonProps) {
+function NavigationButton({id, name}: NavigationButtonProps) {
     return (
         <button
         id={id}
-        className={isActive ? "nav-button active-now" : "nav-button"}
-        onClick={onClick}>
+        className="nav-button">
             <div className="nav-button-div">
               <img
                 src=""
@@ -35,10 +33,21 @@ function NavigationButton({id, name, isActive, onClick}: NavigationButtonProps) 
 
 export function NavigationBar({currentPage, onPageClick}: NavigationBarProps) {
     return (
-        <nav className="navigation">
-            <NavigationButton name="Расписание" id="btn-schedule" isActive={currentPage=="page-schedule"} onClick={() => onPageClick("page-schedule")}/>
-            <NavigationButton name="Задания" id="btn-homework" isActive={currentPage=="page-homework"} onClick={() => onPageClick("page-homework")}/>
-            <NavigationButton name="Профиль" id="btn-profile" isActive={currentPage=="page-profile"} onClick={() => onPageClick("page-profile")}/>
+        <nav className="navigation" >
+            <NavLink to="/schedule" className={({isActive}) => isActive ? "active-now" : ""}>
+                <NavigationButton name="Расписание" id="btn-schedule"/>
+            </NavLink>
+            <NavLink to="/homework" className={({isActive}) => isActive ? "active-now" : ""}>
+                <NavigationButton name="Задания" id="btn-homework"/>
+            </NavLink>
+
+            <NavLink to="/new_homework" className={({isActive}) => isActive ? "active-now": ""}>
+                <NavigationButton name="Создать" id="btn-new-homework"/>
+            </NavLink>
+
+            <NavLink to="/profile" className={({isActive}) => isActive ? "active-now" : ""}>
+                <NavigationButton name="Профиль" id="btn-profile"/>
+            </NavLink>
         </nav>
         );
 }
