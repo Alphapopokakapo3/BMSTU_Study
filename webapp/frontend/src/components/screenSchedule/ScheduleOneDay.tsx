@@ -9,7 +9,9 @@ type ScheduleOneDayProps = {
 // TODO: create Lesson type!!!
 
 function ScheduleEmptyDay() {
-    return <div className="lesson-card">Выходной</div>
+    return <div className="holiday-card">
+            <span className="holiday-card-text">Выходной</span>
+        </div>
 }
 
 export function ScheduleOneDay({lessons}: ScheduleOneDayProps) {
@@ -21,7 +23,7 @@ export function ScheduleOneDay({lessons}: ScheduleOneDayProps) {
                     key={`${element.timeText}`}
                     lesson={element}
                 />
-            )) : <p>Выходной</p>
+            )) : <ScheduleEmptyDay/>
         }
     </div>);
 }

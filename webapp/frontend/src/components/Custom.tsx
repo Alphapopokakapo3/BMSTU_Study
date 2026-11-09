@@ -32,6 +32,12 @@ type WeekSelectProps = {
     setState: (value: number) => void
 }
 
+type SubmitButtonProps = {
+    text: string,
+    isActive: boolean,
+    onClick: () => void
+}
+
 function SliderButton({buttonKey, text, isActive, onClick}: SliderButtonProps) {
     return (
         <button className={isActive ? "slider-button active" : "slider-button"} onClick={() => {onClick(buttonKey)}}>
@@ -96,5 +102,35 @@ export function WeekSelect({weeksList, state, setState}: WeekSelectProps) {
                 ))
             }
         </select>
+    )
+}
+
+
+export function Calendar() {
+    return (
+        <input type="date" className="input-date" onChange={() => {}}/>
+    );
+}
+
+
+export function InputField() {
+
+    const handleInput = (event: BaseSyntheticEvent) => {
+        event.target.style.height = "auto";
+        event.target.style.height = event.target.scrollHeight + "px";
+    }
+
+    return (
+        <textarea placeholder="Введите текст..." className="input-field" maxLength={1800} onInput={handleInput} rows={1}>
+
+        </textarea>
+    );
+}
+
+export function SubmitButton({text, isActive, onClick}: SubmitButtonProps) {
+    return (
+        <button className={`submit-button ${isActive ? 'enabled' : 'disabled'}`} onClick={onClick}>
+            <span className={`submit-button-text ${isActive ? 'enabled' : 'disabled'}`}>{text}</span>
+        </button>
     )
 }

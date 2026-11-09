@@ -12,8 +12,13 @@ const WEEKS = {"ch": "числитель", "zn": "знаменатель"};
 const SHORT_WEEKS = {"ch": "чc", "zn": "зн"};
 const MONTHS = ["янв", "фев", "март", "апр", "май", "июнь", "июль", "авг", "сент", "окт", "ноя", "дек"];
 
+type ScreenScheduleProps = {
+    chSchedule: LessonDto[][];
+    znSchedule: LessonDto[][];
+    updateF: () => void;
+}
 
-export function ScreenSchedule() {
+export function ScreenSchedule({chSchedule, znSchedule, updateF}: ScreenScheduleProps) {
 
     // const testLessonUI: LessonUIModel = {
     //     timeText: "10:20 - 10:30",
@@ -48,8 +53,8 @@ export function ScreenSchedule() {
         return monday;
     }
 
-    const [chSchedule, setChSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
-    const [znSchedule, setZnSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
+    // const [chSchedule, setChSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
+    // const [znSchedule, setZnSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
 
     const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
     const prevDate = addDays(selectedDate, -1);
@@ -104,27 +109,27 @@ export function ScreenSchedule() {
     }
 
     
-    useEffect(() => {
+    // useEffect(() => {
 
-        getSchedule().then(data => {
-            const newChSchedule: LessonDto[][] = [[],[],[],[],[],[],[]];
-            const newZnSchedule: LessonDto[][] = [[],[],[],[],[],[],[]];
+    //     getSchedule().then(data => {
+    //         const newChSchedule: LessonDto[][] = [[],[],[],[],[],[],[]];
+    //         const newZnSchedule: LessonDto[][] = [[],[],[],[],[],[],[]];
 
             
-            data.schedule.forEach(el => {
-                if (el.week == "ch" || el.week == "all") {
-                    newChSchedule[el.day-1]?.push(el);
-                }
-                if (el.week == "zn" || el.week == "all") {
-                    newZnSchedule[el.day-1]?.push(el);
-                }
+    //         data.schedule.forEach(el => {
+    //             if (el.week == "ch" || el.week == "all") {
+    //                 newChSchedule[el.day-1]?.push(el);
+    //             }
+    //             if (el.week == "zn" || el.week == "all") {
+    //                 newZnSchedule[el.day-1]?.push(el);
+    //             }
                 
-            })
+    //         })
 
-            setChSchedule(newChSchedule);
-            setZnSchedule(newZnSchedule);
+    //         setChSchedule(newChSchedule);
+    //         setZnSchedule(newZnSchedule);
             
-        });}, []);
+    //     });}, []);
     
     useEffect(() => {
         // console.log(selectedDate);

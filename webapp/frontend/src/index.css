@@ -226,6 +226,19 @@ a.active-now * {
     font-size: 14px;
 }
 
+.holiday-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.holiday-card-text {
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 30px;
+    color: var(--text-second);
+}
+
 .lesson-card-break-text.last {
     /* Последний перерыв не отображается */
     display: none;
@@ -341,7 +354,7 @@ a.active-now * {
 }
 
 #week-number-button {
-    font-family: 'Nunito SemiBold';
+    font-family: 'Nunito Bold';
     font-size: 16px;
     color: white;
     height: 32px;
@@ -449,7 +462,7 @@ a.active-now * {
 
 .homework-week-title {
     font-family: 'Nunito Bold', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     color: var(--text-third);
 }
 
@@ -590,7 +603,7 @@ a.active-now * {
 
 .button-custom {
     background-color: var(--primary);
-    border-radius: 12px;
+    border-radius: 16px;
     border: none;
     padding: 8px;
 }
@@ -625,3 +638,105 @@ a.active-now * {
     font-size: 16px;
 }
 
+.input-field {
+    height: 48px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    border: inset 0px 0px 0px 2px;
+    border-radius: 16px;
+    padding: 8px;
+    border-width: 2px;
+    border-color: var(--primary);
+    width: 100%;
+    appearance: none;
+    resize: none;
+    outline: none;
+    min-height: 48px;
+    overflow-y: hidden;
+}
+
+.submit-button {
+    height: 64px;
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    background-color: var(--surface-second);
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 24px;
+}
+
+.submit-button.enabled {
+    background-color: var(--primary);
+}
+.submit-button-text.enabled {
+    color: var(--surface);
+}
+
+.submit-button.disabled {
+    background-color: var(--surface-second);
+}
+.submit-button-text.disabled {
+    color: var(--text-first);
+}
+
+.screen-new-homework {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    height: 100%;
+}
+
+.new-homework-form {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.new-homework-form-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+}
+
+.new-homework-form-item-title {
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 16px;
+}
+
+.new-homework-date-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.new-homework-week-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.new-homework-date-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-date {
+    height: 48px;
+    width: 128px;
+    border-radius: 12px;
+    border-width: 4px;
+    outline: none;
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 16px;
+    border: 4px solid var(--primary);
+}
+
+.new-homework-date-title {
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 16px;
+}

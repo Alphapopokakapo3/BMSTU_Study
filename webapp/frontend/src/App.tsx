@@ -4,12 +4,42 @@ import { ScreenSchedule } from './components/screenSchedule/ScreenSchedule.js';
 import { ScreenComp } from './components/ScreenComp.js';
 import { getInitData, authorizationByInitData } from './lib/api/global.js';
 import { HashRouter, Route } from 'react-router';
+import type { LessonDto } from './types/api.js';
+import { getSchedule } from './lib/api/schedule.js';
 
 
 
 function App() {
 
     const [currentPage, changePage] = useState("page-schedule");
+
+    // App data
+    const [chSchedule, setChSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
+    const [znSchedule, setZnSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
+    
+    useEffect(() => {
+    
+        getSchedule().then(data => {
+            const newChSchedule: LessonDto[][] = [[],[],[],[],[],[],[]];
+            const newZnSchedule: LessonDto[][] = [[],[],[],[],[],[],[]];
+
+            
+            data.schedule.forEach(el => {
+                if (el.week == "ch" || el.week == "all") {
+                    newChSchedule[el.day-1]?.push(el);
+                }
+                if (el.week == "zn" || el.week == "all") {
+                    newZnSchedule[el.day-1]?.push(el);
+                }
+                
+            })
+
+            setChSchedule(newChSchedule);
+            setZnSchedule(newZnSchedule);
+            
+        });}, []);
+
+
 
     const onPageClick = (newPage: string) => {
       if (newPage !== currentPage)
@@ -34,7 +64,9 @@ function App() {
   <title>Электронный дневник</title>
   <div className="page-layout">
     <main className="content">
-      <ScreenComp currentPage={currentPage}/>
+      <ScreenComp currentPage={currentPage} 
+        chSchedule={chSchedule}
+        znSchedule={znSchedule}/>
     </main>
       <NavigationBar currentPage={currentPage} onPageClick={onPageClick}/>
       {/*    <nav className="navigation">
