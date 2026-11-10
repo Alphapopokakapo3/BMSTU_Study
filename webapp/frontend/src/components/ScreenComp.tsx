@@ -23,13 +23,14 @@ export function ScreenComp({currentPage, chSchedule, znSchedule}: ScreenProps) {
     //     default:
     //         return <ScreenSchedule/>
     // }
+    console.log(chSchedule);
     return (
         <Routes>
             <Route path="/" element={<Navigate to="/schedule" replace/>}/>
             <Route path="/schedule" element={<ScreenSchedule chSchedule={chSchedule} znSchedule={znSchedule} updateF={() => {}}/>}/>
             <Route path="/homework" element={<ScreenHomework/>}/>
             <Route path="/profile" element={<ScreenProfile/>}/>
-            <Route path="/new_homework" element={<ScreenNewHomework/>}/>
+            <Route path="/new_homework" element={<ScreenNewHomework chSchedule={chSchedule} znSchedule={znSchedule}/>}/>
             <Route path="*" element={<Navigate to="/schedule" replace/>}/>
         </Routes>
     )

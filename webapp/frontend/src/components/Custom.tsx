@@ -38,6 +38,17 @@ type SubmitButtonProps = {
     onClick: () => void
 }
 
+type InputFieldProps = {
+    state: string,
+    setState: (value: string) => void
+}
+
+type CalendarProps = {
+    state: string,
+    setState: (value: string) => void
+}
+
+
 function SliderButton({buttonKey, text, isActive, onClick}: SliderButtonProps) {
     return (
         <button className={isActive ? "slider-button active" : "slider-button"} onClick={() => {onClick(buttonKey)}}>
@@ -91,7 +102,7 @@ export function WeekSelect({weeksList, state, setState}: WeekSelectProps) {
     {
         const value = Number(event.target.value);
         setState(value);
-        console.log(value, typeof value);
+        // console.log(value, typeof value);
     }
 
     return (
@@ -106,18 +117,25 @@ export function WeekSelect({weeksList, state, setState}: WeekSelectProps) {
 }
 
 
-export function Calendar() {
+export function Calendar({state, setState}: CalendarProps) {
+
+    const handleSelect = (event: BaseSyntheticEvent) => {
+        setState(event.target.value);
+    }
+    
     return (
-        <input type="date" className="input-date" onChange={() => {}}/>
+        <input type="date" className="input-date" onChange={handleSelect} value={state}/>
     );
 }
 
 
-export function InputField() {
+export function InputField({state, setState}: InputFieldProps) {
 
     const handleInput = (event: BaseSyntheticEvent) => {
         event.target.style.height = "auto";
         event.target.style.height = event.target.scrollHeight + "px";
+
+        setState(event.target.value);
     }
 
     return (

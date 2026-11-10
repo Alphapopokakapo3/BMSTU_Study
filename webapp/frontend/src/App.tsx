@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import { NavigationBar } from './components/Navigation.js';
 import { ScreenSchedule } from './components/screenSchedule/ScreenSchedule.js';
-import { ScreenComp } from './components/ScreenComp.js';
+import {ScreenComp} from './components/ScreenComp.js';
 import { getInitData, authorizationByInitData } from './lib/api/global.js';
 import { HashRouter, Route } from 'react-router';
 import type { LessonDto } from './types/api.js';
