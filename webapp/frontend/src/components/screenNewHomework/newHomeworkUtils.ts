@@ -34,7 +34,7 @@ export function getLessonsForTwoWeeks(chSchedule: LessonDto[][],
         }
     }
     
-    for (let i = 0; i < 14; i++) {
+    for (let i = 1; i < 14; i++) {
         const nextDate = addDays(date, i);
 
         const weekType = currentWeekType(nextDate);

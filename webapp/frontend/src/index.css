@@ -446,7 +446,11 @@ a.active-now * {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin: 8px
+    margin: 8px;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 16px;
+    scrollbar-width: none;
 }
 
 

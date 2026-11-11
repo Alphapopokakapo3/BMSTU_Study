@@ -1,10 +1,11 @@
 import type { BaseSyntheticEvent } from "react"
 import { currentWeek } from "../lib/scheduleUtils.js"
+import type { LessonType } from "../types/general.js"
 
 type SliderProps = {
     buttonList: Map<string, string>,
     state: string,
-    setState: (value: string) => void
+    setState: (value: LessonType) => void
 }
 
 type SliderButtonProps = {
@@ -45,7 +46,7 @@ type InputFieldProps = {
 
 type CalendarProps = {
     state: string,
-    setState: (value: string) => void
+    onInputHandle: (value: string) => void
 }
 
 
@@ -62,7 +63,7 @@ export function Slider({buttonList, state, setState}: SliderProps) {
     return (
         <div className="slider">
             {[...buttonList].map(([key, value]) => (
-                <SliderButton key={key} buttonKey={key ? key : ""} text={value ? value : ""} isActive={key===state} onClick={setState}/>
+                <SliderButton key={key} buttonKey={key ? key : ""} text={value ? value : ""} isActive={key===state} onClick={(value: string) => setState(value as LessonType)}/>
             ))}
         </div>
     )
@@ -77,7 +78,7 @@ export function Select({variants, state, setState}: SelectProps) {
     }
 
     return (
-        <select className="select-custom" onChange={handleChange}>
+        <select value={state} className="select-custom" onChange={handleChange}>
             {
                 variants.map(value => (
                     <option className="select-custom-option" value={value}>{value}</option>
@@ -106,7 +107,7 @@ export function WeekSelect({weeksList, state, setState}: WeekSelectProps) {
     }
 
     return (
-        <select className="select-week" onChange={handleChange}>
+        <select value={state} className="select-week" onChange={handleChange}>
             {
                 weeksList.map(num => (
                     <option className="select-week-option" value={num} selected={num==state}>{num}</option>
@@ -117,14 +118,14 @@ export function WeekSelect({weeksList, state, setState}: WeekSelectProps) {
 }
 
 
-export function Calendar({state, setState}: CalendarProps) {
+export function Calendar({state, onInputHandle}: CalendarProps) {
 
     const handleSelect = (event: BaseSyntheticEvent) => {
-        setState(event.target.value);
+        onInputHandle(event.target.value);
     }
     
     return (
-        <input type="date" className="input-date" onChange={handleSelect} value={state}/>
+        <input type="date" className="input-date" onInput={handleSelect} value={state}/>
     );
 }
 
@@ -139,7 +140,7 @@ export function InputField({state, setState}: InputFieldProps) {
     }
 
     return (
-        <textarea placeholder="Введите текст..." className="input-field" maxLength={1800} onInput={handleInput} rows={1}>
+        <textarea value={state} placeholder="Введите текст..." className="input-field" maxLength={1800} onInput={handleInput} rows={1}>
 
         </textarea>
     );
@@ -147,7 +148,7 @@ export function InputField({state, setState}: InputFieldProps) {
 
 export function SubmitButton({text, isActive, onClick}: SubmitButtonProps) {
     return (
-        <button className={`submit-button ${isActive ? 'enabled' : 'disabled'}`} onClick={onClick}>
+        <button className={`submit-button ${isActive ? 'enabled' : 'disabled'}`} onClick={onClick} disabled={!isActive}>
             <span className={`submit-button-text ${isActive ? 'enabled' : 'disabled'}`}>{text}</span>
         </button>
     )

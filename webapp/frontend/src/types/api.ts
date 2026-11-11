@@ -70,3 +70,12 @@ export type HomeworkDto = {
 export type MockInitDataResponse = {
     initData: string
 }
+
+export type AddHomeworkDto = {
+    subject: string,
+    description: string,
+    due_at: number,
+    lesson_type: LessonType,
+    kind: string,
+    due_week: number
+}

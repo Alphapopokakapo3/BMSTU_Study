@@ -138,9 +138,33 @@ def api_dev_get_mock_init_data():
 def api_get_profile():
     return ""
 
+
+"""
+subject: string
+description: string
+due_at: integer (Timestamp)
+lesson_type: string (seminar, lecture, lab)
+kind: string (regular, stand)
+due_week: integer
+"""
 @webapp_routes.post("/api/homework/add")
+@auth_required
+@validate_json_body("subject", "description", "due_at", "lesson_type", "kind", "due_week")
 def api_add_new_homework():
-    return ""
+    user_auth = access_tokens[request.cookies.get("auth")]
+    data = request.get_json()
+
+    if data_manager.create_new_homework(
+        user_id=user_auth['user_id'],
+        subject=data.get('subject'),
+        description=data.get('description'),
+        due_at=data.get('due_at'),
+        lesson_type=data.get('lesson_type'),
+        kind=data.get('kind'),
+        due_week=data.get('due_week')
+    ):
+        return generate_response(200, "success")
+    return generate_response(500, "error")
 
 @webapp_routes.get("/api/homework/<int:homework_id>")
 @auth_required

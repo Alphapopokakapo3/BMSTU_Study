@@ -295,6 +295,20 @@ class Database:
             self.conn.execute("DELETE FROM homework_drafts WHERE user_id=?", (user_id,))
         return homework_id
 
+    def create_homework(self, subject: str, description: str, 
+                        attachments: str, due_at: str, lesson_type: str,
+                        delivery: str, author_id: str, kind: str, title: str, due_week: int):
+        with self.conn:
+            values = (subject, description, attachments, due_at, lesson_type, delivery, author_id, kind, title, due_week)
+
+            cursor = self.conn.execute("""INSERT INTO homework(subject, description, attachments, due_at, lesson_type,
+                delivery, kind, title, due_week, author_id) VALUES (?,?,?,?,?,?,?,?,?,?)""", values)
+            homework_id = cursor.lastrowid
+
+            self.conn.execute("INSERT INTO homework_history(homework_id, editor_id, action, payload) VALUES (?,?,?,?)",
+                              (homework_id, author_id, "create", json.dumps({})))
+        return homework_id
+
     def delete_homework(self, homework_id, user_id, owner_id):
         with self.conn:
             item = self.conn.execute("SELECT author_id FROM homework WHERE id=?", (homework_id,)).fetchone()

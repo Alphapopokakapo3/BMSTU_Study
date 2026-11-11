@@ -5,6 +5,7 @@ import { currentWeek } from "../../lib/scheduleUtils.js";
 import type { LessonDto } from '../../types/api.js';
 import { getLessonsForTwoWeeks } from './newHomeworkUtils.js';
 import type { LessonType } from '../../types/general.js';
+import { createNewHomework } from '../../lib/api/homework.js';
 
 const lessonTypeButtonMap = new Map<string, string>([["seminar", "Семинар"], ["lecture", "Лекция"], ["lab", "Лаб."]])
 const homeworkTypeButtonMap = new Map<string, string>([['regular', 'Текущее'], ['stand', 'Стендовое']])
@@ -70,13 +71,43 @@ export function ScreenNewHomework({chSchedule, znSchedule}: ScreenNewHomeworkPro
                 disciplineState,
                 lessonTypeState
             );
-
+            console.log(nextDate);
             if (nextDate !== undefined) {
-                console.log(nextDate);
                 setDateState(nextDate.slice(0,10));
             }
-        }
-        
+        }   
+    }
+
+    const handleDateInput = (value: string) => {
+        setDateState(value);
+        setWeekState(currentWeek(new Date(value)))
+    }
+
+    const clearAllFields = () => {
+        setDisciplineState("");
+        setLessonTypeState("seminar");
+        setWeekState(currentWeek());
+        setDateState(new Date().toISOString().slice(0, 10));
+        setHomeworkTypeState("regular");
+        setHomeworkTextState("");
+
+        console.log("clear");
+    }
+
+    const handleSubmitClick = () => {
+        validateAll();
+        createNewHomework({
+            subject: disciplineState,
+            description: homeworkTextState,
+            due_at: new Date(dateState).getTime()/1000,
+            lesson_type: lessonTypeState,
+            kind: homeworkTypeState,
+            due_week: weekState
+        }).then((flag) => {
+            if (flag) {
+                clearAllFields();
+            }
+        });
     }
 
     return (
@@ -97,7 +128,7 @@ export function ScreenNewHomework({chSchedule, znSchedule}: ScreenNewHomeworkPro
                     </div>
                     <div className="new-homework-date-item">
                         <span className="new-homework-date-title">Дата</span>
-                        <Calendar state={dateState} setState={setDateState}/>
+                        <Calendar state={dateState} onInputHandle={handleDateInput}/>
                     </div>
                     <Button aClass="near-lesson-button" text="Ближайшее занятие" onClick={handleNearClick}/>
                 </div>
@@ -109,7 +140,7 @@ export function ScreenNewHomework({chSchedule, znSchedule}: ScreenNewHomeworkPro
                     <span className="new-homework-form-item-title">Текст домашнего задания</span>
                     <InputField state={homeworkTextState} setState={setHomeworkTextState}/>
                 </div>
-                <SubmitButton text="Опубликовать" isActive={allValidated} onClick={validateAll}/>
+                <SubmitButton text="Опубликовать" isActive={allValidated} onClick={handleSubmitClick}/>
             </div>
         </div>
     );
