@@ -440,7 +440,19 @@ a.active-now * {
     height: 100%;
 }
 
+.homework-page-content {
+    display: flex;
+    flex-direction: column;
+    padding-top: 12px;
+}
 
+.homework-page-title {
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 20px;
+    color: var(--text-first);
+    margin-left: 24px;
+
+}
 
 .homework-viewport {
     display: flex;
@@ -687,6 +699,15 @@ a.active-now * {
     overflow-y: scroll;
     scrollbar-width: none;
     height: 100%;
+    padding-top: 12px;
+}
+
+
+.new-homework-title {
+    margin-left: 24px;
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 20px;
+    color: var(--text-first);
 }
 
 .new-homework-form {

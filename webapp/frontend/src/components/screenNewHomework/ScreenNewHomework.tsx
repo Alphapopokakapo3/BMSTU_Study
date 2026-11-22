@@ -113,6 +113,7 @@ export function ScreenNewHomework({chSchedule, znSchedule}: ScreenNewHomeworkPro
 
     return (
         <div className="screen-new-homework">
+            <span className="new-homework-title">Добавление Д/З</span>
             <div className="new-homework-form">
                 <div className="new-homework-form-item">
                     <span className="new-homework-form-item-title">Дисциплина</span>

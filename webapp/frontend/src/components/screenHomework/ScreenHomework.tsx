@@ -56,12 +56,15 @@ export function ScreenHomework() {
 
     return (
         <ClickContext.Provider value = {handleToggleHomeworkClick}>
-        <div className="homework-viewport">
-            {
-                [...byWeek].map(([week, items]) => (
-                    <HomeworkWeekBlock key={"week"+week} homeworkList={items}/>
-                ))
-            }
+        <div className="homework-page-content">
+            <span className="homework-page-title">Домашние задания</span>
+            <div className="homework-viewport">
+                {
+                    [...byWeek].map(([week, items]) => (
+                        <HomeworkWeekBlock key={"week"+week} homeworkList={items}/>
+                    ))
+                }
+            </div>
         </div>
         </ClickContext.Provider>
     );
