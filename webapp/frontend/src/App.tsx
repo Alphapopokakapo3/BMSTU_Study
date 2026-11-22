@@ -16,7 +16,16 @@ function App() {
     // App data
     const [chSchedule, setChSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
     const [znSchedule, setZnSchedule] = useState<LessonDto[][]>([[], [], [], [], [], [], []]);
+
+    // const [currentUser, setCurrentUser] = useStat
+
+    const [scheme, setScheme] = useState<string>(window.Telegram?.WebApp?.colorScheme ?? "light");
     
+    window.Telegram?.WebApp?.onEvent('themeChanged', () => {
+      setScheme(window.Telegram?.WebApp?.colorScheme ?? "light");
+    })
+
+
     useEffect(() => {
     
         getSchedule().then(data => {
@@ -62,6 +71,7 @@ function App() {
   />
   <meta name="format-detection" content="telephone=no" />
   <title>Электронный дневник</title>
+  <body className={scheme === "dark" ? "dark" : "light"}>
   <div className="page-layout">
     <main className="content">
       <ScreenComp currentPage={currentPage} 
@@ -69,53 +79,8 @@ function App() {
         znSchedule={znSchedule}/>
     </main>
       <NavigationBar currentPage={currentPage} onPageClick={onPageClick}/>
-      {/*    <nav className="navigation">
-      <button
-        data-page="page-schedule"
-        id="btn-schedule"
-        className="nav-button"
-      >
-        <div className="nav-button-div">
-          <img
-            src="{{ url_for('static', filename='Schedule24.svg') }}"
-            width={24}
-            height={24}
-            alt="Расписание"
-            className="nav-button-image"
-          />
-          <h5 className="nav-button-text">Расписание</h5>
-        </div>
-      </button>
-      <button
-        data-page="page-homework"
-        id="btn-homework"
-        className="nav-button"
-      >
-        <div className="nav-button-div">
-          <img
-            src="{{ url_for('static', filename='Schedule24.svg') }}"
-            width={24}
-            height={24}
-            alt="Д/З"
-            className="nav-button-image"
-          />
-          <h5 className="nav-button-text">Д/З</h5>
-        </div>
-      </button>
-      <button data-page="page-profile" id="btn-profile" className="nav-button">
-        <div className="nav-button-div">
-          <img
-            src="{{ url_for('static', filename='Schedule24.svg') }}"
-            width={24}
-            height={24}
-            alt="Профиль"
-            className="nav-button-image"
-          />
-          <h5 className="nav-button-text">Профиль</h5>
-        </div>
-      </button>
-    </nav> */}
   </div>
+  </body>
 </>
 );
 }

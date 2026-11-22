@@ -41,6 +41,7 @@ body {
     --lection: #006CDC;
     --laboratory: #FFB24F;
 
+    --wrong-red: #FF2222;
 }
 
 body.dark {
@@ -49,6 +50,7 @@ body.dark {
     --surface: #232E3C;
     --text-second: #708499;
     --text-third: #708499;
+    --surface-second: #19202a;
 }
 
 
@@ -71,6 +73,8 @@ body {
 }
 
 .content {
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
     min-height: 0;
     overflow: hidden;
@@ -86,12 +90,13 @@ body {
     min-width: 64px;
 }
 
-.nav-button:active {
+/* .nav-button:active {
     background: rgba(0, 0, 0, .08);
-}
+} */
 
 .nav-button-text {
     font-family: 'Nunito', sans-serif;
+    color: var(--text-first)
 }
 
 .nav-button-div {
@@ -166,6 +171,8 @@ a.active-now * {
 .lesson-card-audience {
     /* Аудитория */
     font-family: 'Nunito SemiBold', sans-serif;
+    color: var(--text-first);
+    font-size: 14px;
 }
 
 .lesson-card-description {
@@ -178,6 +185,7 @@ a.active-now * {
 .lesson-card-name {
     /* Название занятия */
     font-family: 'Nunito Bold', sans-serif;
+    color: var(--text-first);
     font-size: 20px;
 }
 
@@ -223,6 +231,7 @@ a.active-now * {
 
 .lesson-card-break-text {
     font-family: 'Nunito SemiBold', sans-serif;
+    color: var(--text-second);
     font-size: 14px;
 }
 
@@ -266,6 +275,7 @@ a.active-now * {
 
 .week-day-abbr {
     font-family: 'Nunito', sans-serif;
+    color: var(--text-first);
     font-size: 16px;
 }
 
@@ -282,9 +292,9 @@ a.active-now * {
     background-color: var(--primary);
 }
 
-.week-day-button:active {
+/* .week-day-button:active {
     background-color: rgba(1, 1, 1, 0.08);
-}
+} */
 
 .day-number {
     font-family: 'Nunito Medium', sans-serif;
@@ -331,7 +341,7 @@ a.active-now * {
 }
 
 #schedule-page-head {
-    margin-left: 24px;
+    margin-left: 16px;
     margin-right: 24px;
     margin-top: 12px;
     margin-bottom: 14px;
@@ -443,6 +453,8 @@ a.active-now * {
 .homework-page-content {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
     padding-top: 12px;
 }
 
@@ -450,7 +462,7 @@ a.active-now * {
     font-family: 'Nunito Bold', sans-serif;
     font-size: 20px;
     color: var(--text-first);
-    margin-left: 24px;
+    margin-left: 16px;
 
 }
 
@@ -459,7 +471,8 @@ a.active-now * {
     flex-direction: column;
     gap: 8px;
     margin: 8px;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
     padding-bottom: 16px;
     scrollbar-width: none;
@@ -472,7 +485,7 @@ a.active-now * {
     padding-top: 8px;
     padding-bottom: 8px;
 
-    background-color: #FFFFFF;
+    background-color: var(--surface);
     border-radius: 16px;
 }
 
@@ -485,7 +498,13 @@ a.active-now * {
 .homework-discipline-title {
     font-family: 'Nunito Bold', sans-serif;
     font-size: 16px;
-    color: #000000;
+    color: var(--text-first);
+}
+
+.homework-discipline-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px
 }
 
 .homework-date-block {
@@ -550,8 +569,24 @@ a.active-now * {
     font-size: 12px;
 }
 
+.homework-stand-tag {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    margin-right: 4px;
+    background-color: var(--wrong-red);
+    font-family: 'Nunito Bold', sans-serif;
+    font-size: 12px;
+    color: var(--surface);
+}
+
 .homework-tile-text {
     font-family: 'Nunito', sans-serif;
+    color: var(--text-first);
     font-size: 16px;
 }
 
@@ -696,6 +731,8 @@ a.active-now * {
 }
 
 .screen-new-homework {
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     scrollbar-width: none;
     height: 100%;
@@ -704,7 +741,8 @@ a.active-now * {
 
 
 .new-homework-title {
-    margin-left: 24px;
+    margin-left: 16px;
+    margin-bottom: 8px;
     font-family: 'Nunito Bold', sans-serif;
     font-size: 20px;
     color: var(--text-first);

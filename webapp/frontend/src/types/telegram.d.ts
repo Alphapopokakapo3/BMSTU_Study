@@ -5,7 +5,9 @@ declare global {
         Telegram?: {
             WebApp?: {
                 initData: string,
-                expand: () => void
+                colorScheme: string = "light",
+                expand: () => void,
+                onEvent: (event: string, func: () => void) => void
             };
         };
     }

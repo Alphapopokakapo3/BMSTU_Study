@@ -302,7 +302,7 @@ class Database:
             values = (subject, description, attachments, due_at, lesson_type, delivery, author_id, kind, title, due_week)
 
             cursor = self.conn.execute("""INSERT INTO homework(subject, description, attachments, due_at, lesson_type,
-                delivery, kind, title, due_week, author_id) VALUES (?,?,?,?,?,?,?,?,?,?)""", values)
+                delivery, author_id, kind, title, due_week) VALUES (?,?,?,?,?,?,?,?,?,?)""", values)
             homework_id = cursor.lastrowid
 
             self.conn.execute("INSERT INTO homework_history(homework_id, editor_id, action, payload) VALUES (?,?,?,?)",

@@ -47,6 +47,7 @@ export function OneHomeworkTile({homework}: OneHomeworkTileProps) {
             <HomeworkCheckBoxButton isActive={homework.done} onClick={() => {handleClick(homework.id)}}/>
             <div className="homework-tile-content">
                 {lessonTypeName.get(homework.lessonType) ? <span className="homework-tile-tag">{lessonTypeName.get(homework.lessonType)}</span> : <span></span>}
+                {homework.kind == "stand" ? <span className="homework-stand-tag">!</span> : <span></span>}
                 <span className="homework-tile-text">{homework.text}</span>
             </div>
         </div>

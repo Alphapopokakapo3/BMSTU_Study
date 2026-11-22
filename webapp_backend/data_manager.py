@@ -22,7 +22,14 @@ def create_new_homework(user_id: int, subject: str,
     due_at_string = datetime.fromtimestamp(due_at, tz=MOSCOW).isoformat()
 
     return db.create_homework(
-        subject, description, "{}", 
-        due_at_string, lesson_type, "", 
-        user_id, kind, "", due_week
+        subject=subject,
+        description=description,
+        attachments="{}",
+        due_at=due_at_string, 
+        lesson_type=lesson_type, 
+        delivery="", 
+        author_id=user_id, 
+        kind=kind,
+        title="",
+        due_week=due_week
     )
