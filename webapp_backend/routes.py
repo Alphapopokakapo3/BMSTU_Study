@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, render_template, request, make_response
 # from .data_fabric import get_schedule, get_all_homework, get_user_by_id, get_homework_by_id
-from . import data_fabric, auth, data_manager
+from . import data_fabric, auth, data_manager, validate
 # from .data_manager import toggle_homework_done
 # from .auth import generate_mock_init_data, validate_telegram_init_data, generate_access_token
 from . import auth
 import time
 from functools import wraps
+
 
 
 webapp_routes = Blueprint("webapp", __name__)
@@ -25,6 +26,18 @@ response_codes = {
     404: "not_found",
     500: "internal_server_error"
 }
+
+# class CustomHttpException(Exception):
+#     def __init__(self, code, message = ""):
+#         self.code = code
+#         self.error = response_codes[code]
+#         self.message = message
+
+#     def __str__(self):
+#         return jsonify({
+#             "error": self.error,
+#             "message": self.message
+#         }), self.code
 
 def generate_response(code: int, message: str = ""):
     return jsonify({
@@ -154,18 +167,23 @@ def api_add_new_homework():
     user_auth = access_tokens[request.cookies.get("auth")]
     data = request.get_json()
 
-    if data_manager.create_new_homework(
-        user_id=user_auth['user_id'],
-        subject=data.get('subject'),
-        description=data.get('description'),
-        due_at=data.get('due_at'),
-        lesson_type=data.get('lesson_type'),
-        kind=data.get('kind'),
-        due_week=data.get('due_week')
+    if validate.validate_new_homework_data(
+        user_auth['user_id'], data.get('subject'), data.get('description'),
+        data.get('due_at'), data.get('lesson_type'), data.get('kind'), data.get('due_week')
     ):
-        return generate_response(200, "success")
-    return generate_response(500, "error")
-
+        if data_manager.create_new_homework(
+            user_id=user_auth['user_id'],
+            subject=data.get('subject'),
+            description=data.get('description'),
+            due_at=data.get('due_at'),
+            lesson_type=data.get('lesson_type'),
+            kind=data.get('kind'),
+            due_week=data.get('due_week')
+        ):
+            return generate_response(200, "success")
+        return generate_response(500, "error")
+    return generate_response(400, "Invalid types of data.")
+    
 @webapp_routes.get("/api/homework/<int:homework_id>")
 @auth_required
 def api_get_homework_by_id(homework_id):

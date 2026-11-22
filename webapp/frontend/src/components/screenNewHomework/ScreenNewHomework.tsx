@@ -96,10 +96,11 @@ export function ScreenNewHomework({chSchedule, znSchedule}: ScreenNewHomeworkPro
 
     const handleSubmitClick = () => {
         validateAll();
+        const due_at = new Date(new Date(dateState).setHours(23, 59, 59))
         createNewHomework({
             subject: disciplineState,
             description: homeworkTextState,
-            due_at: new Date(dateState).getTime()/1000,
+            due_at: due_at.getTime()/1000,
             lesson_type: lessonTypeState,
             kind: homeworkTypeState,
             due_week: weekState
