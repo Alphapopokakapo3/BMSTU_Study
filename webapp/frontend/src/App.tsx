@@ -25,6 +25,13 @@ function App() {
       setScheme(window.Telegram?.WebApp?.colorScheme ?? "light");
     })
 
+    useEffect(() => {
+      if (scheme == "dark")
+        document.body.classList.add("dark");
+      else
+        document.body.classList.remove("dark");
+    }, [scheme])
+
 
     useEffect(() => {
     
@@ -70,8 +77,7 @@ function App() {
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   />
   <meta name="format-detection" content="telephone=no" />
-  <title>Электронный дневник</title>
-  <body className={scheme === "dark" ? "dark" : "light"}>
+  
   <div className="page-layout">
     <main className="content">
       <ScreenComp currentPage={currentPage} 
@@ -80,7 +86,6 @@ function App() {
     </main>
       <NavigationBar currentPage={currentPage} onPageClick={onPageClick}/>
   </div>
-  </body>
 </>
 );
 }
