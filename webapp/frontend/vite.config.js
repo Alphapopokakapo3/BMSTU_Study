@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
     server: {
         proxy: {
-            '/api': 'http://localhost:5000'
+            '/api': 'http://153.80.193.217:8000'
         }
-    }
+    },
+    base: '/BMSTU_Study/'
 })

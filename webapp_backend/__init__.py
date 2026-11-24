@@ -2,7 +2,7 @@ from flask import Flask
 
 from .routes import webapp_routes, dev_routes
 
-def create_app(debug: bool):
+def create_app(debug: bool = False):
     app = Flask(__name__)
     app.debug = debug
     if app.debug:
