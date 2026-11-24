@@ -1,7 +1,7 @@
-const API_PATH = "http://127.0.0.1:5000/";
+export const API_PATH = import.meta.env.VITE_API_BASE_URL;
 
 export async function get<T>(path: string): Promise<T> {
-    const response = await fetch(path);
+    const response = await fetch(`${API_PATH}${path}`);
 
     if (!response.ok) {
         throw new Error(response.statusText);
@@ -12,7 +12,7 @@ export async function get<T>(path: string): Promise<T> {
 
 
 export async function post<T>(path: string): Promise<T> {
-    const response = await fetch(path, {
+    const response = await fetch(`${API_PATH}${path}`, {
         method: 'POST'
     });
 

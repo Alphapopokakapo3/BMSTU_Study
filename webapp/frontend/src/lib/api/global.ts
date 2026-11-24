@@ -1,5 +1,6 @@
 import {get, post} from "./controller.js";
 import type { MockInitDataResponse } from "../../types/api.js";
+import { API_PATH } from "./controller.js";
 
 export async function getInitData(): Promise<string> {
     const initData = window.Telegram?.WebApp?.initData;
@@ -15,7 +16,7 @@ export async function getInitData(): Promise<string> {
 }
 
 export async function authorizationByInitData(initData: string) {
-    const response = await fetch("/api/auth/telegram",
+    const response = await fetch(`${API_PATH}/api/auth/telegram`,
         {
             headers: {"Authorization": `tma ${initData}`},
             method: "POST"
