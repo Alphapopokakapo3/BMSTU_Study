@@ -31,6 +31,7 @@ jobs:
         with:
           node-version: lts/*
           cache: 'npm'
+          cache-depedency-path: './frontend/package-lock.json'
       - name: Install and Build
         run: npm ci && npm run build
       - name: Setup Pages
